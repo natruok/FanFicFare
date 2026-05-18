@@ -554,7 +554,7 @@ class BaseOTWAdapter(BaseSiteAdapter):
                 ulassoc = headnotes.find('ul', {'class' : "associations"})
                 headnotes = headnotes.find('blockquote', {'class' : "userstuff"})
                 if headnotes != None or ulassoc != None:
-                    append_tag(head_notes_div,'b',"Author's Note:")
+                    append_tag(head_notes_div,'b',self.getConfig("notelabel_authorheadnotes","Author's Note:"))
                 if ulassoc != None:
                     # fix relative links--all examples so far have been.
                     for alink in ulassoc.find_all('a'):
@@ -569,26 +569,19 @@ class BaseOTWAdapter(BaseSiteAdapter):
             chapsumm = chapter_dl_soup.find('div', {'id' : "summary"})
             if chapsumm != None:
                 chapsumm = chapsumm.find('blockquote')
-                append_tag(head_notes_div,'b',"Chapter Summary:")
+                append_tag(head_notes_div,'b',self.getConfig("notelabel_chaptersummary","Summary for the Chapter:"))
                 head_notes_div.append(chapsumm)
-                #append_tag(chapter_notes_div,'b',"Chapter Summary:")
-                #chapter_notes_div.append(chapsumm)
 
         ## Can appear on every chapter
         if 'chapterheadnotes' not in exclude_notes:
             chapnotes = chapter_dl_soup.find('div', {'id' : "notes"})
-            #chapnotes = chapter_dl_soup.find('div', {'class':'chapter preface group'}).find({'id' : "notes"},{'class':'notes module'})
+
             if chapnotes != None:
                 chapnotes = chapnotes.find('blockquote')
-                #chapnotes = chapnotes.find('blockquote',{'class':'userstuff'})
+
                 if chapnotes != None:
-                    append_tag(head_notes_div,'b',"Chapter Notes:")
+                    append_tag(head_notes_div,'b',self.getConfig("notelabel_chapterheadnotes","Notes for the Chapter:"))
                     head_notes_div.append(chapnotes)
-                    #append_tag(chapter_notes_div,'b',"Chapter Notes:")
-                    #chapter_notes_div.append(chapnotes)
-                #if chapnotes == 'See the end of the chapter for notes':
-                    #append_tag(head_notes_div,'b',"Chapter Notes:")
-                    #head_notes_div.append(chapnotes)
 
         text = chapter_dl_soup.find('div', {'class' : "userstuff module"})
         chtext = text.find('h3', {'class' : "landmark heading"})
@@ -600,10 +593,10 @@ class BaseOTWAdapter(BaseSiteAdapter):
         ## Can appear on every chapter
         if 'chapterfootnotes' not in exclude_notes:
             chapfoot = chapter_dl_soup.find('div', {'class' : "end notes module"})
-            #chapfoot = chapter_dl_soup.find('div', {'class':'chapter preface group'}).find('div', {'class' : "end notes module"})
+
             if chapfoot != None:
                 chapfoot = chapfoot.find('blockquote')
-                append_tag(foot_notes_div,'b',"Chapter End Notes:")
+                append_tag(foot_notes_div,'b',self.getConfig("notelabel_chapterfootnotes","Notes for the Chapter:"))
                 foot_notes_div.append(chapfoot)
 
         skip_on_update_tags = []
@@ -614,12 +607,12 @@ class BaseOTWAdapter(BaseSiteAdapter):
         ## the last chapter.
         if 'authorfootnotes' not in exclude_notes and index+1 == self.num_chapters():
             footnotes = whole_dl_soup.find('div', {'id' : "work_endnotes"})
-            #footnotes = whole_dl_soup.find('div', {'class':'afterword preface group'}).find('div', {'id' : "work_endnotes"},{'class':'end notes module'})
+
             if footnotes != None:
                 footnotes = footnotes.find('blockquote')
-                #footnotes = footnotes.find('blockquote', {'class' : "userstuff"})
+
                 if footnotes:
-                    b = append_tag(foot_notes_div,'b',"End Notes:")
+                    b = append_tag(foot_notes_div,'b',self.getConfig("notelabel_authorfootnotes","Author's Note:"))
                     skip_on_update_tags.append(b)
                     skip_on_update_tags.append(footnotes)
                     foot_notes_div.append(footnotes)
