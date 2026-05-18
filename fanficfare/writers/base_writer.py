@@ -68,12 +68,17 @@ class BaseStoryWriter(Requestable):
 
     def _write(self, out, text):
         out.write(ensure_binary(text))
-
+    
     def includeSummaryPage(self):
         return (self.getConfig("include_summarypage")=='true') and not self.metaonly
 
     def includeToCPage(self):
         return (self.getConfig("include_tocpage")=='always' or (self.story.getChapterCount() > 1 and self.getConfig("include_tocpage"))) and not self.metaonly
+    
+    def includeAfterPage(self):
+        return (self.getConfig("include_afterpage") == "smart" and \
+                          (self.story.logfile or self.story.getMetadataRaw("status") == "Completed") )  \
+                     or self.getConfig("include_afterpage") == "true"
 
     def writeTitlePage(self, out, START, ENTRY, END, WIDE_ENTRY=None, NO_TITLE_ENTRY=None):
         """
@@ -137,7 +142,7 @@ class BaseStoryWriter(Requestable):
                     self._write(out, entry)
 
             self._write(out,END.substitute(self.story.getAllMetadata()))
-    
+
     def writeSummaryPage(self, out, START, ENTRY, END):
         """
         Write the Summary page.  START, ENTRY and END are expected to already by
@@ -265,7 +270,6 @@ class BaseStoryWriter(Requestable):
 
         if close:
             outstream.close()
-    
 
     def writeFile(self, filename, data):
         logger.debug("writeFile:%s"%filename)

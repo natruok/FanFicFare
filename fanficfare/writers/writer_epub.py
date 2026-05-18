@@ -120,6 +120,7 @@ ${value}<br />
 <div>
 <h3>Summary</h3>
 ${description}
+${description}
 ''')
         
         self.EPUB_SUMMARY_PAGE_ENTRY = string.Template('''                     
@@ -199,17 +200,22 @@ ${description}
 </html>
 ''')
 
-        self.EPUB_LOG_PAGE_END = string.Template('''
+        self.EPUB_AFTER_PAGE_START = string.Template('''<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Afterword</title>
+<link href="stylesheet.css" type="text/css" rel="stylesheet"/>
+</head>
+<body class="fff_afterpage">
+<h3>Afterword</h3>
+''')
+
+        self.EPUB_AFTER_PAGE_ENTRY = string.Template('''
+''')
+
+        self.EPUB_AFTER_PAGE_END = string.Template('''
 </body>
 </html>
-''')
-        
-        self.EPUB_SUMMARY_PAGE_ENTRY = string.Template('''
-${authorheadnotes}<br />
-${chaptersummary}<br />
-${chapterheadnotes}<br />
-${chapterfootnotes}<br />
-${authorfootnotes}<br />                         
 ''')
 
         self.EPUB_COVER = string.Template('''
@@ -222,7 +228,6 @@ div { margin: 0pt; padding: 0pt; }
 </div></body></html>
 ''')
 
-## not copied over yet for afterword page
     def writeLogPage(self, out):
         """
         Write the log page, but only include entries that there's
@@ -355,6 +360,30 @@ div { margin: 0pt; padding: 0pt; }
             retval = re.sub("<hr[^>]*>","<div class='center'>* * *</div>",retval)
 
         return retval
+
+    ## write afterword page
+    def writeAfterPage(self, out):
+        """
+        Write the after page, but only include entries that there's
+        metadata for.  START, ENTRY and END are expected to already be
+        string.Template().  START and END are expected to use the same
+        names as Story.metadata, but ENTRY should use id, label and value.
+        """
+        if self.hasConfig("afterpage_start"):
+            START = string.Template(self.getConfig("afterpage_start"))
+        else:
+            START = self.EPUB_AFTER_PAGE_START
+
+        if self.hasConfig("afterpage_entry"):
+            ENTRY = self.EPUB_AFTER_PAGE_ENTRY
+
+        if self.hasConfig("afterpage_end"):
+            END = string.Template(self.getConfig("afterpage_end"))
+        else:
+            END = self.EPUB_AFTER_PAGE_END
+
+        self._write(out,START.substitute(self.story.getAllMetadata()))
+        self._write(out,END.substitute(self.story.getAllMetadata()))
 
     def writeStoryImpl(self, out):
 
@@ -683,6 +712,13 @@ div { margin: 0pt; padding: 0pt; }
                           (self.story.logfile or self.story.getMetadataRaw("status") == "In-Progress") )  \
                      or self.getConfig("include_logpage") == "true"
         
+        ## save where to insert afterpage.
+        afterpage_indices = (len(items),len(itemrefs))
+
+        doafterpage = ( self.getConfig("include_afterpage") == "smart" and \
+                          (self.story.getMetadataRaw("status") == "Completed") )  \
+                     or self.getConfig("include_afterpage") == "true"
+
         ## collect chapter urls and file names for internalize_text_links option.
         chapurlmap = {}
         for index, chap in enumerate(self.story.getChapters(fortoc=True)):
@@ -701,6 +737,11 @@ div { margin: 0pt; padding: 0pt; }
                 logpage_indices = (len(items),len(itemrefs))
             items.insert(logpage_indices[0],("log_page","OEBPS/log_page.xhtml","application/xhtml+xml","Update Log"))
             itemrefs.insert(logpage_indices[1],"log_page")
+
+        if doafterpage:
+            afterpage_indices = (len(items),len(itemrefs))
+            items.insert(afterpage_indices[0],("after_page","OEBPS/after_page.xhtml","application/xhtml+xml","Afterword"))
+            itemrefs.insert(afterpage_indices[1],"after_page")
 
         # write stylesheet.css file.
         write_to_epub("OEBPS/stylesheet.css",self.EPUB_CSS.substitute(self.story.getAllMetadata()))
@@ -760,6 +801,14 @@ div { margin: 0pt; padding: 0pt; }
             self.writeLogPage(logpageIO)
             write_to_epub("OEBPS/log_page.xhtml",logpageIO.getvalue())
             logpageIO.close()
+
+        if doafterpage:
+            # write after page.
+            afterpageIO = BytesIO()
+            self.writeAfterPage(afterpageIO)
+                                #self.AfterwordText)
+            write_to_epub("OEBPS/after_page.xhtml",afterpageIO.getvalue())
+            afterpageIO.close()
 
         if self.hasConfig('chapter_start'):
             CHAPTER_START = string.Template(self.getConfig("chapter_start"))
@@ -857,8 +906,7 @@ div { margin: 0pt; padding: 0pt; }
                                                'properties':'nav'
                                                }))
 
-
-        spine = newTag(contentdom,"spine",attrs={"toc":"ncx","summary":"ncx"})
+        spine = newTag(contentdom,"spine",attrs={"toc":"ncx"})
         if self.getConfig('page_progression_direction_rtl'):
             spine.setAttribute("page-progression-direction","rtl")
         package.appendChild(spine)
@@ -882,7 +930,6 @@ div { margin: 0pt; padding: 0pt; }
         contentdom.unlink()
         del contentdom
 
-        ##NOT copied over for summary yet, look above for unlink/del
         ## create toc.ncx file
         tocncxdom = getDOMImplementation().createDocument(None, "ncx", None)
         ncx = tocncxdom.documentElement
@@ -993,8 +1040,6 @@ div { margin: 0pt; padding: 0pt; }
             write_to_epub("nav.xhtml",tocnavdom.toprettyxml(encoding='utf-8'))
             tocnavdom.unlink()
             del tocnavdom
-
-        ## end of TOC section
 
         # declares all the files created by Windows.  otherwise, when
         # it runs in appengine, windows unzips the files as 000 perms.
