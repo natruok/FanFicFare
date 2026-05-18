@@ -121,6 +121,22 @@ ${value}<br />
 <h3>Summary</h3>
 ${description}         
 ''')
+
+        self.EPUB_SUMMARY_PAGE_HEADNOTE_START = string.Template('''<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>${title} by ${author}</title>
+<link href="stylesheet.css" type="text/css" rel="stylesheet"/>
+</head>
+<body class="fff_summarypage">
+<div>
+<h3>Summary</h3>
+${description}
+<hr/>
+<br/>
+<b>Author's Note:</b>
+<blockquote>${headnote}</blockquote>     
+''')
         
         self.EPUB_SUMMARY_PAGE_ENTRY = string.Template('''                     
 ''')
@@ -779,10 +795,16 @@ div { margin: 0pt; padding: 0pt; }
 
         # write summary page.
         summarypageIO = BytesIO()
-        self.writeSummaryPage(summarypageIO,
-                          self.EPUB_SUMMARY_PAGE_START,
-                          self.EPUB_SUMMARY_PAGE_ENTRY,
-                          self.EPUB_SUMMARY_PAGE_END)
+        if self.getMetadata('headnote') != "":
+            self.writeSummaryPage(summarypageIO,
+                            self.EPUB_SUMMARY_PAGE_HEADNOTE_START,
+                            self.EPUB_SUMMARY_PAGE_ENTRY,
+                            self.EPUB_SUMMARY_PAGE_END)
+        else:
+            self.writeSummaryPage(summarypageIO,
+                            self.EPUB_SUMMARY_PAGE_START,
+                            self.EPUB_SUMMARY_PAGE_ENTRY,
+                            self.EPUB_SUMMARY_PAGE_END)
         if summarypageIO.getvalue(): # will be false if no summary page.
             write_to_epub("OEBPS/summary_page.xhtml",summarypageIO.getvalue())
         summarypageIO.close()
