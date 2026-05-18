@@ -110,6 +110,32 @@ ${value}<br />
 </html>
 ''')
 
+        self.EPUB_SUMMARY_PAGE_START = string.Template('''<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>${title} by ${author}</title>
+<link href="stylesheet.css" type="text/css" rel="stylesheet"/>
+</head>
+<body class="fff_summarypage">
+<div>
+<h3>Summary</h3>
+${description}<br />
+''')
+        
+        self.EPUB_SUMMARY_PAGE_ENTRY = string.Template('''
+${headnotes}<br />
+${chaptersummary}<br />
+${chapterheadnotes}<br />
+${chapterfootnotes}<br />
+${authorfootnotes}<br />                         
+''')
+
+        self.EPUB_SUMMARY_PAGE_END = string.Template('''
+</div>                                                            
+</body>
+</html>
+''')
+
         self.EPUB_TOC_PAGE_START = string.Template('''<?xml version="1.0" encoding="UTF-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -182,6 +208,14 @@ ${value}<br />
 </body>
 </html>
 ''')
+        
+        self.EPUB_SUMMARY_PAGE_ENTRY = string.Template('''
+${authorheadnotes}<br />
+${chaptersummary}<br />
+${chapterheadnotes}<br />
+${chapterfootnotes}<br />
+${authorfootnotes}<br />                         
+''')
 
         self.EPUB_COVER = string.Template('''
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><head><title>Cover</title><style type="text/css" title="override_css">
@@ -193,6 +227,7 @@ div { margin: 0pt; padding: 0pt; }
 </div></body></html>
 ''')
 
+## not copied over yet for afterword page
     def writeLogPage(self, out):
         """
         Write the log page, but only include entries that there's
@@ -488,7 +523,9 @@ div { margin: 0pt; padding: 0pt; }
                 # logger.debug(series)
                 ## assumed "series [series_index]"
                 series_index = series[series.rindex(' [')+2:-1]
+                ## TO UPDATE LATER
                 series = series[:series.rindex(' [')]
+                #series = 'Part' [:series.rindex(' [')]
 
                 ## calibre always outputs a series_index and it's
                 ## always a float with 1 or 2 decimals.  FFF usually
@@ -637,6 +674,9 @@ div { margin: 0pt; padding: 0pt; }
         if self.getConfig("include_titlepage"):
             items.append(("title_page","OEBPS/title_page.xhtml","application/xhtml+xml","Title Page"))
             itemrefs.append("title_page")
+        if self.includeSummaryPage():
+            items.append(("summary_page","OEBPS/summary_page.xhtml","application/xhtml+xml","Summary"))
+            itemrefs.append("summary_page")
         if self.includeToCPage():
             items.append(("toc_page","OEBPS/toc_page.xhtml","application/xhtml+xml","Table of Contents"))
             itemrefs.append("toc_page")
@@ -647,7 +687,7 @@ div { margin: 0pt; padding: 0pt; }
         dologpage = ( self.getConfig("include_logpage") == "smart" and \
                           (self.story.logfile or self.story.getMetadataRaw("status") == "In-Progress") )  \
                      or self.getConfig("include_logpage") == "true"
-
+        
         ## collect chapter urls and file names for internalize_text_links option.
         chapurlmap = {}
         for index, chap in enumerate(self.story.getChapters(fortoc=True)):
@@ -698,6 +738,16 @@ div { margin: 0pt; padding: 0pt; }
         if titlepageIO.getvalue(): # will be false if no title page.
             write_to_epub("OEBPS/title_page.xhtml",titlepageIO.getvalue())
         titlepageIO.close()
+
+        # write summary page.
+        summarypageIO = BytesIO()
+        self.writeSummaryPage(summarypageIO,
+                          self.EPUB_SUMMARY_PAGE_START,
+                          self.EPUB_SUMMARY_PAGE_ENTRY,
+                          self.EPUB_SUMMARY_PAGE_END)
+        if summarypageIO.getvalue(): # will be false if no summary page.
+            write_to_epub("OEBPS/summary_page.xhtml",summarypageIO.getvalue())
+        summarypageIO.close()
 
         # write toc page.
         tocpageIO = BytesIO()
@@ -813,7 +863,7 @@ div { margin: 0pt; padding: 0pt; }
                                                }))
 
 
-        spine = newTag(contentdom,"spine",attrs={"toc":"ncx"})
+        spine = newTag(contentdom,"spine",attrs={"toc":"ncx","summary":"ncx"})
         if self.getConfig('page_progression_direction_rtl'):
             spine.setAttribute("page-progression-direction","rtl")
         package.appendChild(spine)
@@ -837,6 +887,7 @@ div { margin: 0pt; padding: 0pt; }
         contentdom.unlink()
         del contentdom
 
+        ##NOT copied over for summary yet, look above for unlink/del
         ## create toc.ncx file
         tocncxdom = getDOMImplementation().createDocument(None, "ncx", None)
         ncx = tocncxdom.documentElement
@@ -947,6 +998,8 @@ div { margin: 0pt; padding: 0pt; }
             write_to_epub("nav.xhtml",tocnavdom.toprettyxml(encoding='utf-8'))
             tocnavdom.unlink()
             del tocnavdom
+
+        ## end of TOC section
 
         # declares all the files created by Windows.  otherwise, when
         # it runs in appengine, windows unzips the files as 000 perms.
