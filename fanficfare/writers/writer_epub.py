@@ -120,7 +120,8 @@ ${value}<br />
 <div>
 <h3>Summary</h3>
 ${description}
-${description}
+<hr/>
+${authorheadnote}
 ''')
         
         self.EPUB_SUMMARY_PAGE_ENTRY = string.Template('''                     
@@ -208,6 +209,8 @@ ${description}
 </head>
 <body class="fff_afterpage">
 <h3>Afterword</h3>
+<b>End Note:</b>
+${authorfootnote}
 ''')
 
         self.EPUB_AFTER_PAGE_ENTRY = string.Template('''

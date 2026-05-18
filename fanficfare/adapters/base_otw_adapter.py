@@ -36,7 +36,7 @@ class BaseOTWAdapter(BaseSiteAdapter):
 
         self.username = "NoneGiven" # if left empty, site doesn't return any message at all.
         self.password = ""
-        self.is_adult=False
+        self.is_adult = False
         self.addurl = ""
 
         self.full_work_soup = None
@@ -340,6 +340,23 @@ class BaseOTWAdapter(BaseSiteAdapter):
             a.name='div' # Change blockquote to div.
             self.setDescription(url,a)
             #self.story.setMetadata('description',a.text)
+
+        a = metasoup.find('div', {'class' : "preface group"}).find('div', {'class' : "notes module"})
+        if a != None:
+            a = a.find('blockquote', {'class' : "userstuff"})
+            a.name='div' # Change blockquote to div.
+            self.setAuthorHeadNote(url,a)
+
+        #a = metasoup.find('ul', {'class' : "associations"}).find('blockquote', {'class' : "userstuff"})
+        #if a != None:
+            #a.name='div' # Change blockquote to div.
+            #self.setUlAssoc(url,a)
+        
+        a = metasoup.find('div', {'id' : "work_endnotes", 'class' : "end notes module"})
+        if a != None:
+            a = a.find('blockquote')
+            a.name='div' # Change blockquote to div.
+            self.setAuthorFootNote(url,a)
 
         a = metasoup.find('dd',{'class':"rating tags"})
         if a != None:
