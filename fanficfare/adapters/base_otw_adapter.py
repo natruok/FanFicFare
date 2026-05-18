@@ -574,11 +574,9 @@ class BaseOTWAdapter(BaseSiteAdapter):
 
         ## Can appear on every chapter
         if 'chapterheadnotes' not in exclude_notes:
-            chapnotes = chapter_dl_soup.find('div', {'id' : "notes"})
-
+            chapnotes = chapter_dl_soup.find('div', {'id' : "notes", 'class' : "notes module"})
             if chapnotes != None:
                 chapnotes = chapnotes.find('blockquote')
-
                 if chapnotes != None:
                     append_tag(head_notes_div,'b',self.getConfig("notelabel_chapterheadnotes","Notes for the Chapter:"))
                     head_notes_div.append(chapnotes)
@@ -592,8 +590,8 @@ class BaseOTWAdapter(BaseSiteAdapter):
         foot_notes_div = append_tag(save_chapter,'div',classes="fff_chapter_notes fff_foot_notes")
         ## Can appear on every chapter
         if 'chapterfootnotes' not in exclude_notes:
-            chapfoot = chapter_dl_soup.find('div', {'class' : "end notes module"})
-
+            #chapfoot = chapter_dl_soup.find('div', {'class' : "end notes module"})
+            chapfoot = chapter_dl_soup.find('div', {'class' : "end notes module", 'id' : re.compile(r'^chapter_.*')})
             if chapfoot != None:
                 chapfoot = chapfoot.find('blockquote')
                 append_tag(foot_notes_div,'b',self.getConfig("notelabel_chapterfootnotes","Notes for the Chapter:"))
@@ -606,11 +604,11 @@ class BaseOTWAdapter(BaseSiteAdapter):
         ## headnotes from whole_dl_soup, so be sure to only do it on
         ## the last chapter.
         if 'authorfootnotes' not in exclude_notes and index+1 == self.num_chapters():
-            footnotes = whole_dl_soup.find('div', {'id' : "work_endnotes"})
-
+            #footnotes = whole_dl_soup.find('div', {'id' : "work_endnotes"})
+            footnotes = whole_dl_soup.find('div', {'id' : "work_endnotes", 'class' : "end notes module"})
             if footnotes != None:
                 footnotes = footnotes.find('blockquote')
-
+                
                 if footnotes:
                     b = append_tag(foot_notes_div,'b',self.getConfig("notelabel_authorfootnotes","Author's Note:"))
                     skip_on_update_tags.append(b)
