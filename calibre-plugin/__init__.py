@@ -47,7 +47,7 @@ class FanFicFareBase(InterfaceActionBase):
     The reason for having two classes is that it allows the command line
     calibre utilities to run without needing to load the GUI libraries.
     '''
-    name                = 'FanFicFare_edited v48'
+    name                = 'FanFicFare_edited v49'
     description         = _('UI plugin to download FanFiction stories from various sites.')
     supported_platforms = ['windows', 'osx', 'linux']
     author              = 'Jim Miller'

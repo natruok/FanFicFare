@@ -21,7 +21,7 @@ from glob import glob
 from makezip import createZipFile
 
 if __name__=="__main__":
-    filename="FanFicFare_v48.zip"
+    filename="FanFicFare_v49.zip"
     exclude=['*.pyc','*~','*.xcf','*[0-9].png','*.po','*.pot','*default.mo','*Thumbs.db']
     
     os.chdir('calibre-plugin')
