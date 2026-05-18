@@ -119,15 +119,10 @@ ${value}<br />
 <body class="fff_summarypage">
 <div>
 <h3>Summary</h3>
-${description}<br />
+${description}
 ''')
         
-        self.EPUB_SUMMARY_PAGE_ENTRY = string.Template('''
-${headnotes}<br />
-${chaptersummary}<br />
-${chapterheadnotes}<br />
-${chapterfootnotes}<br />
-${authorfootnotes}<br />                         
+        self.EPUB_SUMMARY_PAGE_ENTRY = string.Template('''                     
 ''')
 
         self.EPUB_SUMMARY_PAGE_END = string.Template('''
