@@ -70,7 +70,7 @@ class BaseStoryWriter(Requestable):
         out.write(ensure_binary(text))
 
     def includeSummaryPage(self):
-        return (self.getConfig("include_summarypage")=='always' or (self.story.getChapterCount() > 1 and self.getConfig("include_summarypage"))) and not self.metaonly
+        return (self.getConfig("include_summarypage")=='true') and not self.metaonly
 
     def includeToCPage(self):
         return (self.getConfig("include_tocpage")=='always' or (self.story.getChapterCount() > 1 and self.getConfig("include_tocpage"))) and not self.metaonly
