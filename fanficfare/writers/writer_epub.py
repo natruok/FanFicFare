@@ -133,8 +133,7 @@ ${description}
 <h3>Summary</h3>
 ${description}
 <hr/>
-<br/>
-<b>Author's Note:</b>
+<p><b>Author's Note:</b></p>
 <blockquote>${headnote}</blockquote>     
 ''')
         
@@ -223,8 +222,8 @@ ${description}
 </head>
 <body class="fff_afterpage">
 <h3>Afterword</h3>
- <b>End Notes:</b>
- <blockquote>${endnote}</blockquote>
+<b>End Notes:</b>
+<blockquote>${endnote}</blockquote>
 ''')
 
         self.EPUB_AFTER_PAGE_ENTRY = string.Template('''
@@ -392,6 +391,8 @@ div { margin: 0pt; padding: 0pt; }
             START = self.EPUB_AFTER_PAGE_START
 
         if self.hasConfig("afterpage_entry"):
+            ENTRY = string.Template(self.getConfig("afterpage_entry"))
+        else:
             ENTRY = self.EPUB_AFTER_PAGE_ENTRY
 
         if self.hasConfig("afterpage_end"):

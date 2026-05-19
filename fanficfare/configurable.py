@@ -453,6 +453,7 @@ def get_valid_keywords():
                  'strip_chapter_numeral',
                  'summarypage_entries',
                  'summarypage_start',
+                 'summarypage_headnote_start',
                  'summarypage_entry',
                  'summarypage_end',
                  'threadmark_category_order',
@@ -1173,4 +1174,3 @@ class Configurable(object):
         else:
             label=entry.title()
         return label
-

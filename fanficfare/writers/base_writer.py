@@ -151,11 +151,15 @@ class BaseStoryWriter(Requestable):
         """
         # Only do Summary if there's more than one chapter and it's configured.
         if self.includeSummaryPage():
-            if self.hasConfig("summarypage_start"):
-                START = string.Template(self.getConfig("summarypage_start"))
-
+            if self.getMetadata('headnote') != "":
+                if self.hasConfig("summarypage_headnote_start"):
+                    START = string.Template(self.getConfig("summarypage_headnote_start"))
+            else:
+                if self.hasConfig("summarypage_start"):
+                    START = string.Template(self.getConfig("summarypage_start"))
+            
             if self.hasConfig("summarypage_entry"):
-                ENTRY = string.Template(self.getConfig("summarypage_entry"))
+                    ENTRY = string.Template(self.getConfig("summarypage_entry"))
 
             if self.hasConfig("summarypage_end"):
                 END = string.Template(self.getConfig("summarypage_end"))
