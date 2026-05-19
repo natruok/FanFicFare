@@ -36,3 +36,4 @@ personal.ini
 appcfg_oauth2_tokens
 venv/
 .DS_Store
+setup.py
