@@ -454,7 +454,6 @@ def get_valid_keywords():
                  'summarypage_entries',
                  'summarypage_start',
                  'summarypage_entry',
-                 'summarypage_headnote_entry',
                  'summarypage_end',
                  'threadmark_category_order',
                  'threadmarks_per_page',

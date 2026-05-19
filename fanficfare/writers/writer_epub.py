@@ -134,7 +134,7 @@ ${description}
 ${description}
 <hr/>
 <br/>
-<p><b>Author's Note:</b></p>
+<b>Author's Note:</b>
 <blockquote>${headnote}</blockquote>     
 ''')
         
@@ -392,8 +392,6 @@ div { margin: 0pt; padding: 0pt; }
             START = self.EPUB_AFTER_PAGE_START
 
         if self.hasConfig("afterpage_entry"):
-            ENTRY = string.Template(self.getConfig("afterpage_entry"))
-        else:
             ENTRY = self.EPUB_AFTER_PAGE_ENTRY
 
         if self.hasConfig("afterpage_end"):
