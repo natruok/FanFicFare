@@ -153,9 +153,13 @@ class BaseStoryWriter(Requestable):
         if self.includeSummaryPage():
             if self.hasConfig("summarypage_start"):
                 START = string.Template(self.getConfig("summarypage_start"))
-
-            if self.hasConfig("summarypage_entry"):
-                ENTRY = string.Template(self.getConfig("summarypage_entry"))
+            
+            if self.getMetadata('headnote') != "":
+                if self.hasConfig("summarypage_headnote_entry"):
+                    ENTRY = string.Template(self.getConfig("summarypage_headnote_entry"))
+            else:
+                if self.hasConfig("summarypage_entry"):
+                    ENTRY = string.Template(self.getConfig("summarypage_entry"))
 
             if self.hasConfig("summarypage_end"):
                 END = string.Template(self.getConfig("summarypage_end"))
