@@ -496,6 +496,9 @@ try to download.</p>
 
     def getChapterText(self, url):
         "Needs to be overriden in each adapter class."
+    
+    def getAfterwordText(self, url, index):
+        "Only for the last chapter."
 
     def before_get_urls_from_page(self,url,normalize):
         ## some sites need a login or other prep for 'from page' to
