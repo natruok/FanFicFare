@@ -1,3 +1,5 @@
+Latest stable: [v46](https://github.com/natruok/FanFicFare/releases/tag/v46)
+
 **Personal customization goals:**
 - add links to all metadata on title page like with ao3 export — DONE, see [v31](https://github.com/natruok/FanFicFare/releases/tag/v31)
 - create separate summary page that also shows up in TOC — DONE [v31](https://github.com/natruok/FanFicFare/releases/tag/v31)
