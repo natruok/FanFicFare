@@ -343,7 +343,10 @@ class BaseOTWAdapter(BaseSiteAdapter):
 
         a = metasoup.find('dd',{'class':"rating tags"})
         if a != None:
-            self.story.setMetadata('rating',stripHTML(a.text))
+            ratings = a.find_all('a',{'class':"tag"})
+            for rating in ratings:
+                self.story.setMetadata('rating',stripHTML(a.text))
+                self.story.addToList('ratingUrl','https://'+self.host+rating['href'])
 
         d = metasoup.find('dd',{'class':"language"})
         if d != None:
@@ -354,18 +357,21 @@ class BaseOTWAdapter(BaseSiteAdapter):
             fandoms = a.find_all('a',{'class':"tag"})
             for fandom in fandoms:
                 self.story.addToList('fandoms',fandom.string)
+                self.story.addToList('fandomsUrl','https://'+self.host+fandom['href'])
 
         a = metasoup.find('dd',{'class':"warning tags"})
         if a != None:
             warnings = a.find_all('a',{'class':"tag"})
             for warning in warnings:
                 self.story.addToList('warnings',warning.string)
+                self.story.addToList('warningsUrl','https://'+self.host+warning['href'])
 
         a = metasoup.find('dd',{'class':"freeform tags"})
         if a != None:
             genres = a.find_all('a',{'class':"tag"})
             for genre in genres:
                 self.story.addToList('freeformtags',genre.string)
+                self.story.addToList('freeformtagsUrl','https://'+self.host+genre['href'])
 
         a = metasoup.find('dd',{'class':"category tags"})
         if a != None:
@@ -373,18 +379,21 @@ class BaseOTWAdapter(BaseSiteAdapter):
             for genre in genres:
                 if genre != "Gen":
                     self.story.addToList('ao3categories',genre.string)
+                    self.story.addToList('ao3categoriesUrl','https://'+self.host+genre['href'])
 
         a = metasoup.find('dd',{'class':"character tags"})
         if a != None:
             chars = a.find_all('a',{'class':"tag"})
             for char in chars:
                 self.story.addToList('characters',char.string)
+                self.story.addToList('charactersUrl','https://'+self.host+char['href'])
 
         a = metasoup.find('dd',{'class':"relationship tags"})
         if a != None:
             ships = a.find_all('a',{'class':"tag"})
             for ship in ships:
                 self.story.addToList('ships',ship.string)
+                self.story.addToList('shipsUrl','https://'+self.host+ship['href'])
 
         a = metasoup.find('dd',{'class':"collections"})
         if a != None:
@@ -566,8 +575,10 @@ class BaseOTWAdapter(BaseSiteAdapter):
         ## Can appear on every chapter
         if 'chapterheadnotes' not in exclude_notes:
             chapnotes = chapter_dl_soup.find('div', {'id' : "notes"})
+
             if chapnotes != None:
                 chapnotes = chapnotes.find('blockquote')
+
                 if chapnotes != None:
                     append_tag(head_notes_div,'b',self.getConfig("notelabel_chapterheadnotes","Notes for the Chapter:"))
                     head_notes_div.append(chapnotes)
@@ -582,6 +593,7 @@ class BaseOTWAdapter(BaseSiteAdapter):
         ## Can appear on every chapter
         if 'chapterfootnotes' not in exclude_notes:
             chapfoot = chapter_dl_soup.find('div', {'class' : "end notes module"})
+
             if chapfoot != None:
                 chapfoot = chapfoot.find('blockquote')
                 append_tag(foot_notes_div,'b',self.getConfig("notelabel_chapterfootnotes","Notes for the Chapter:"))
@@ -595,8 +607,10 @@ class BaseOTWAdapter(BaseSiteAdapter):
         ## the last chapter.
         if 'authorfootnotes' not in exclude_notes and index+1 == self.num_chapters():
             footnotes = whole_dl_soup.find('div', {'id' : "work_endnotes"})
+
             if footnotes != None:
                 footnotes = footnotes.find('blockquote')
+
                 if footnotes:
                     b = append_tag(foot_notes_div,'b',self.getConfig("notelabel_authorfootnotes","Author's Note:"))
                     skip_on_update_tags.append(b)
