@@ -451,7 +451,6 @@ def get_valid_keywords():
                  'slow_down_sleep_time',
                  'sort_ships_splits',
                  'strip_chapter_numeral',
-                 'summarypage_entries',
                  'summarypage_start',
                  'summarypage_headnote_start',
                  'summarypage_entry',
