@@ -1,3 +1,18 @@
+**Personal customization goals:**
+- separate overall author head notes into summary page rather than in ch 1 — DONE, see v50
+- separate work end notes into afterword page rather than end of chapter — DONE, see v50
+- afterword page to show up only if there are overall end notes — DONE, see v50
+- fix consistency of title headings — DONE, see v46
+- add line break between chapter head & foot notes — DONE, see v51
+- strip chapter titles & redo only if the chapter isn't named "Chapter #"
+- update series naming to "Part # of xxx", but keep indexing by series name
+
+
+
+<hr/>
+
+
+
 [FanFicFare](https://github.com/JimmXinu/FanFicFare)
 ==========
 
