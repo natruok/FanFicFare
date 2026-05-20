@@ -107,7 +107,7 @@ ${value}<br />
 </table>
 
 </body>
-</html>
+</html>         
 ''')
 
         self.EPUB_SUMMARY_PAGE_START = string.Template('''<?xml version="1.0" encoding="UTF-8"?>
@@ -119,8 +119,22 @@ ${value}<br />
 <body class="fff_summarypage">
 <div>
 <h3>Summary</h3>
+${description}         
+''')
+
+        self.EPUB_SUMMARY_PAGE_HEADNOTE_START = string.Template('''<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>${title} by ${author}</title>
+<link href="stylesheet.css" type="text/css" rel="stylesheet"/>
+</head>
+<body class="fff_summarypage">
+<div>
+<h3>Summary</h3>
 ${description}
-${description}
+<hr/>
+<p><b>Author's Note:</b></p>
+<blockquote>${headnote}</blockquote>     
 ''')
         
         self.EPUB_SUMMARY_PAGE_ENTRY = string.Template('''                     
@@ -208,6 +222,8 @@ ${description}
 </head>
 <body class="fff_afterpage">
 <h3>Afterword</h3>
+<b>End Notes:</b>
+<blockquote>${endnote}</blockquote>
 ''')
 
         self.EPUB_AFTER_PAGE_ENTRY = string.Template('''
@@ -375,6 +391,8 @@ div { margin: 0pt; padding: 0pt; }
             START = self.EPUB_AFTER_PAGE_START
 
         if self.hasConfig("afterpage_entry"):
+            ENTRY = string.Template(self.getConfig("afterpage_entry"))
+        else:
             ENTRY = self.EPUB_AFTER_PAGE_ENTRY
 
         if self.hasConfig("afterpage_end"):
@@ -715,9 +733,10 @@ div { margin: 0pt; padding: 0pt; }
         ## save where to insert afterpage.
         afterpage_indices = (len(items),len(itemrefs))
 
-        doafterpage = ( self.getConfig("include_afterpage") == "smart" and \
+        doafterpage = self.getMetadata('endnote') != "" and \
+                          ((self.getConfig("include_afterpage") == "smart" and \
                           (self.story.getMetadataRaw("status") == "Completed") )  \
-                     or self.getConfig("include_afterpage") == "true"
+                     or self.getConfig("include_afterpage") == "true")
 
         ## collect chapter urls and file names for internalize_text_links option.
         chapurlmap = {}
@@ -777,10 +796,16 @@ div { margin: 0pt; padding: 0pt; }
 
         # write summary page.
         summarypageIO = BytesIO()
-        self.writeSummaryPage(summarypageIO,
-                          self.EPUB_SUMMARY_PAGE_START,
-                          self.EPUB_SUMMARY_PAGE_ENTRY,
-                          self.EPUB_SUMMARY_PAGE_END)
+        if self.getMetadata('headnote') != "":
+            self.writeSummaryPage(summarypageIO,
+                            self.EPUB_SUMMARY_PAGE_HEADNOTE_START,
+                            self.EPUB_SUMMARY_PAGE_ENTRY,
+                            self.EPUB_SUMMARY_PAGE_END)
+        else:
+            self.writeSummaryPage(summarypageIO,
+                            self.EPUB_SUMMARY_PAGE_START,
+                            self.EPUB_SUMMARY_PAGE_ENTRY,
+                            self.EPUB_SUMMARY_PAGE_END)
         if summarypageIO.getvalue(): # will be false if no summary page.
             write_to_epub("OEBPS/summary_page.xhtml",summarypageIO.getvalue())
         summarypageIO.close()

@@ -342,6 +342,9 @@ def get_valid_keywords():
                  'add_category_when_multi_category',
                  'add_genre_when_multi_category',
                  'adult_ratings',
+                 'afterpage_start',
+                 'afterpage_entry',
+                 'afterpage_end',
                  'allow_unsafe_filename',
                  'always_overwrite',
                  'anthology_merge_keepsingletocs',
@@ -448,6 +451,10 @@ def get_valid_keywords():
                  'slow_down_sleep_time',
                  'sort_ships_splits',
                  'strip_chapter_numeral',
+                 'summarypage_start',
+                 'summarypage_headnote_start',
+                 'summarypage_entry',
+                 'summarypage_end',
                  'threadmark_category_order',
                  'threadmarks_per_page',
                  'title_chapter_range_pattern',
@@ -1166,4 +1173,3 @@ class Configurable(object):
         else:
             label=entry.title()
         return label
-
