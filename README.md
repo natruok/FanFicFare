@@ -2,7 +2,7 @@
 - add links to all metadata on title page like with ao3 export — DONE, see [v31](https://github.com/natruok/FanFicFare/releases/tag/v31)
 - create separate summary page that also shows up in TOC — DONE [v31](https://github.com/natruok/FanFicFare/releases/tag/v31)
 - create separate afterword page that also showd up in TOC for overall work end notes — DONE, see [v44](https://github.com/natruok/FanFicFare/releases/tag/v44)
-- separate overall author head notes into summary page rather than at beginning of ch 1 — DONE, see [v45](https://github.com/natruok/FanFicFare/releases/tag/v45)
+- separate overall author head notes into summary page rather than at beginning of ch 1 — PARTIALLY DONE, pending to add ul associations, see [v45](https://github.com/natruok/FanFicFare/releases/tag/v45)
 - fix consistency of title headings — DONE, see [v46](https://github.com/natruok/FanFicFare/releases/tag/v46)
 - separate work end notes into afterword page rather than end of chapter — DONE, see [v50](https://github.com/natruok/FanFicFare/releases/tag/v50)
 - afterword page to show up only if there are overall end notes — DONE, see [v48](https://github.com/natruok/FanFicFare/releases/tag/v48)
