@@ -143,7 +143,7 @@ class BaseStoryWriter(Requestable):
 
             self._write(out,END.substitute(self.story.getAllMetadata()))
 
-    def writeSummaryPage(self, out, START, ENTRY, END):
+    def writeSummaryPage(self, out, START, END):
         """
         Write the Summary page.  START, ENTRY and END are expected to already by
         string.Template().  START and END are expected to use the same
@@ -157,9 +157,6 @@ class BaseStoryWriter(Requestable):
             else:
                 if self.hasConfig("summarypage_start"):
                     START = string.Template(self.getConfig("summarypage_start"))
-            
-            if self.hasConfig("summarypage_entry"):
-                    ENTRY = string.Template(self.getConfig("summarypage_entry"))
 
             if self.hasConfig("summarypage_end"):
                 END = string.Template(self.getConfig("summarypage_end"))

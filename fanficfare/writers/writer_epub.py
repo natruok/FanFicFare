@@ -137,9 +137,6 @@ ${description}
 <p>${assocnote}</p>
 <blockquote>${headnote}</blockquote>     
 ''')
-        
-        self.EPUB_SUMMARY_PAGE_ENTRY = string.Template('''                     
-''')
 
         self.EPUB_SUMMARY_PAGE_END = string.Template('''
 </div>                                                            
@@ -225,9 +222,6 @@ ${description}
 <h3>Afterword</h3>
 <b>End Notes:</b>
 <blockquote>${endnote}</blockquote>
-''')
-
-        self.EPUB_AFTER_PAGE_ENTRY = string.Template('''
 ''')
 
         self.EPUB_AFTER_PAGE_END = string.Template('''
@@ -390,11 +384,6 @@ div { margin: 0pt; padding: 0pt; }
             START = string.Template(self.getConfig("afterpage_start"))
         else:
             START = self.EPUB_AFTER_PAGE_START
-
-        if self.hasConfig("afterpage_entry"):
-            ENTRY = string.Template(self.getConfig("afterpage_entry"))
-        else:
-            ENTRY = self.EPUB_AFTER_PAGE_ENTRY
 
         if self.hasConfig("afterpage_end"):
             END = string.Template(self.getConfig("afterpage_end"))
@@ -566,9 +555,7 @@ div { margin: 0pt; padding: 0pt; }
                 # logger.debug(series)
                 ## assumed "series [series_index]"
                 series_index = series[series.rindex(' [')+2:-1]
-                ## TO UPDATE LATER
                 series = series[:series.rindex(' [')]
-                #series = 'Part' [:series.rindex(' [')]
 
                 ## calibre always outputs a series_index and it's
                 ## always a float with 1 or 2 decimals.  FFF usually
@@ -800,12 +787,10 @@ div { margin: 0pt; padding: 0pt; }
         if self.getMetadata('headnote') != "":
             self.writeSummaryPage(summarypageIO,
                             self.EPUB_SUMMARY_PAGE_HEADNOTE_START,
-                            self.EPUB_SUMMARY_PAGE_ENTRY,
                             self.EPUB_SUMMARY_PAGE_END)
         else:
             self.writeSummaryPage(summarypageIO,
                             self.EPUB_SUMMARY_PAGE_START,
-                            self.EPUB_SUMMARY_PAGE_ENTRY,
                             self.EPUB_SUMMARY_PAGE_END)
         if summarypageIO.getvalue(): # will be false if no summary page.
             write_to_epub("OEBPS/summary_page.xhtml",summarypageIO.getvalue())
