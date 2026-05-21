@@ -2,7 +2,7 @@ fff-edited is the combination of all changes noted below — can use the versin
 
 **UPDATES** — will use versions .# in the future for fixes:
 
-**vSUM-AFTER** — combined, as inclusion of pages and notes is configurable
+**vPAGES** — combined, as inclusion of pages and notes is configurable
 
 _branch 1 (up to v31)_
 - add links to all metadata on title page like with ao3 export
