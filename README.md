@@ -1,4 +1,4 @@
-fff-edited is the combination of all changes noted below — where only a specific feature is wanted, 
+fff-edited is the combination of all changes noted below — can use the versinon with features desired.
 
 **UPDATES** — will use versions .# in the future for fixes:
 
