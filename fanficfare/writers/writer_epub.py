@@ -134,6 +134,7 @@ ${description}
 ${description}
 <hr/>
 <p><b>Author's Note:</b></p>
+<p>${assocnote}</p>
 <blockquote>${headnote}</blockquote>     
 ''')
         
