@@ -71,6 +71,9 @@ class BaseStoryWriter(Requestable):
     
     def includeSummaryPage(self):
         return (self.getConfig("include_summarypage")=='true') and not self.metaonly
+    
+    def includeOtherPage(self):
+        return (self.getConfig("include_otherpage")=='true') and not self.metaonly
 
     def includeToCPage(self):
         return (self.getConfig("include_tocpage")=='always' or (self.story.getChapterCount() > 1 and self.getConfig("include_tocpage"))) and not self.metaonly
@@ -145,9 +148,9 @@ class BaseStoryWriter(Requestable):
 
     def writeSummaryPage(self, out, START, END):
         """
-        Write the Summary page.  START, ENTRY and END are expected to already by
+        Write the Summary page.  START and END are expected to already by
         string.Template().  START and END are expected to use the same
-        names as Story.metadata, but ENTRY should use index and chapter.
+        names as Story.metadata.
         """
         # Only do Summary if there's more than one chapter and it's configured.
         if self.includeSummaryPage():
@@ -160,6 +163,23 @@ class BaseStoryWriter(Requestable):
 
             if self.hasConfig("summarypage_end"):
                 END = string.Template(self.getConfig("summarypage_end"))
+
+            self._write(out,START.substitute(self.story.getAllMetadata()))
+
+            self._write(out,END.substitute(self.story.getAllMetadata()))
+    
+    def writeOtherPage(self, out, START, END):
+        """
+        Write Other page.  START and END are expected to already by
+        string.Template().  START and END are expected to use the same
+        names as Story.metadata.
+        """
+        if self.includeOtherPage():
+            if self.hasConfig("otherpage_start"):
+                START = string.Template(self.getConfig("otherpage_start"))
+
+            if self.hasConfig("otherpage_end"):
+                END = string.Template(self.getConfig("otherpage_end"))
 
             self._write(out,START.substitute(self.story.getAllMetadata()))
 

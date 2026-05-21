@@ -144,6 +144,22 @@ ${description}
 </html>
 ''')
 
+        self.EPUB_OTHER_PAGE_START = string.Template('''<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>${title} by ${author}</title>
+<link href="stylesheet.css" type="text/css" rel="stylesheet"/>
+</head>
+<body class="fff_otherpage">
+<div>   
+''')
+
+        self.EPUB_OTHER_PAGE_END = string.Template('''
+</div>                                                            
+</body>
+</html>
+''')
+
         self.EPUB_TOC_PAGE_START = string.Template('''<?xml version="1.0" encoding="UTF-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -707,6 +723,9 @@ div { margin: 0pt; padding: 0pt; }
         if self.includeSummaryPage():
             items.append(("summary_page","OEBPS/summary_page.xhtml","application/xhtml+xml","Summary"))
             itemrefs.append("summary_page")
+        if self.includeOtherPage():
+            items.append(("other_page","OEBPS/other_page.xhtml","application/xhtml+xml",self.getConfig("otherpage_title","Other")))
+            itemrefs.append("other_page")
         if self.includeToCPage():
             items.append(("toc_page","OEBPS/toc_page.xhtml","application/xhtml+xml","Table of Contents"))
             itemrefs.append("toc_page")
@@ -795,6 +814,15 @@ div { margin: 0pt; padding: 0pt; }
         if summarypageIO.getvalue(): # will be false if no summary page.
             write_to_epub("OEBPS/summary_page.xhtml",summarypageIO.getvalue())
         summarypageIO.close()
+
+        # write other page.
+        otherpageIO = BytesIO()
+        self.writeOtherPage(otherpageIO,
+                            self.EPUB_OTHER_PAGE_START,
+                            self.EPUB_OTHER_PAGE_END)
+        if otherpageIO.getvalue(): # will be false if no other page.
+            write_to_epub("OEBPS/other_page.xhtml",otherpageIO.getvalue())
+        otherpageIO.close()
 
         # write toc page.
         tocpageIO = BytesIO()
