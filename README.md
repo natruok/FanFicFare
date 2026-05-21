@@ -11,6 +11,7 @@
 **Pending:**
 - strip chapter titles & redo only if the chapter isn't named "Chapter #"
 - update series naming to "Part # of xxx", but keep indexing by series name
+- add inspired links section to work end notes
 
 <HR/>
 
