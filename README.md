@@ -140,6 +140,30 @@ summarypage_end:
  </body>
  </html>
 
+## OTHER PAGE
+## page included between summary & TOC, can be used for author's note
+## if using for author's note, make sure to remove ${headnote} from summarypage_headnote_start template
+## options are just true/false — default is false
+include_otherpage: true
+
+## this will be the title of what shows up in the epub TOC
+otherpage_title: Author's Note
+
+## customize as needed — only start & end sections
+otherpage_start:<?xml version="1.0" encoding="UTF-8"?>
+ <html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+ <title>${title} by ${author}</title>
+ <link href="stylesheet.css" type="text/css" rel="stylesheet"/>
+ </head>
+ <body class="fff_otherpage">
+ <div>
+
+otherpage_end:
+ </div>                                                            
+ </body>
+ </html>
+
 ## TOC PAGE — part of original fff plugin
 ## to include TOC page: true = if chapters > 1, always = always, false = off
 include_tocpage: false
