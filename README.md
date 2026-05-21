@@ -1,3 +1,32 @@
+fff-edited is the combination of all changes noted below — where only a specific feature is wanted, 
+
+**UPDATES** — will use versions .# in the future for fixes:
+
+**vSUM-AFTER** — combined, as inclusion of pages and notes is configurable
+
+_branch 1 (up to v31)_
+- add links to all metadata on title page like with ao3 export
+- create separate summary page that also shows up in TOC
+
+_branch 2 (up to v45) & branch 4 (up to v50)_
+- create separate afterword page that also showd up in TOC for overall work end notes
+- separate overall author head notes into summary page rather than at beginning of ch 1
+- afterword page to show up only if there are overall end notes
+- summary page to show horizontal line for line break and author's note only if it exists
+- separate work end notes into afterword page rather than end of chapter
+- make new summary & afternote pages configurable in personal.ini
+
+**vCHAP** - _branch 5 (up to v51)_
+- add line break between chapter head & foot notes
+
+Pending:
+- strip chapter titles & redo only if the chapter isn't named "Chapter #"
+- update series naming to "Part # of xxx", but keep indexing by series name
+- add configurable "other" page
+
+<HR/>
+**ARCHIVED NOTES:**
+
 Latest stable: [v46](https://github.com/natruok/FanFicFare/releases/tag/v46)
 
 **Personal customization goals:**
@@ -5,7 +34,6 @@ Latest stable: [v46](https://github.com/natruok/FanFicFare/releases/tag/v46)
 - create separate summary page that also shows up in TOC — DONE [v31](https://github.com/natruok/FanFicFare/releases/tag/v31)
 - create separate afterword page that also showd up in TOC for overall work end notes — DONE, see [v44](https://github.com/natruok/FanFicFare/releases/tag/v44)
 - separate overall author head notes into summary page rather than at beginning of ch 1 — PARTIALLY DONE, pending to add ul associations, see [v45](https://github.com/natruok/FanFicFare/releases/tag/v45)
-- fix consistency of title headings — DONE, see [v46](https://github.com/natruok/FanFicFare/releases/tag/v46)
 - afterword page to show up only if there are overall end notes — DONE, see [v48](https://github.com/natruok/FanFicFare/releases/tag/v48)
 - summary page to show horizontal line for line break and author's note — DONE, see [v48](https://github.com/natruok/FanFicFare/releases/tag/v48)
 - summary page to show horizontal line for line break and author's note only if it exists — DONE, see [v49](https://github.com/natruok/FanFicFare/releases/tag/v49)
