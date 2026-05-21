@@ -348,23 +348,24 @@ class BaseOTWAdapter(BaseSiteAdapter):
                 a.name='div' # Change blockquote to div.
                 self.setHeadNote(url,a)
 
-        #a = metasoup.find('ul', {'class' : "associations"}).find('blockquote', {'class' : "userstuff"})
-        #if a != None:
-            #a.name='div' # Change blockquote to div.
-            #self.setUlAssoc(url,a)
+        a = metasoup.find('ul', {'class' : "associations"})
+        if a != None:
+            a.name='div' # Change blockquote to div.
+            self.setAssocNote(url,a)
         
         a = metasoup.find('div', {'id' : "work_endnotes"})        
         if a != None:
             a = a.find('blockquote')
-            a.name='div' # Change blockquote to div.
-            self.setEndNote(url,a)
+            if a != None:
+                a.name='div' # Change blockquote to div.
+                self.setEndNote(url,a)
 
         a = metasoup.find('dd',{'class':"rating tags"})
         if a != None:
             ratings = a.find_all('a',{'class':"tag"})
             for rating in ratings:
                 self.story.setMetadata('rating',stripHTML(a.text))
-                self.story.addToList('ratingUrl','https://'+self.host+rating['href'])
+                self.story.setMetadata('ratingUrl','https://'+self.host+rating['href'])
 
         d = metasoup.find('dd',{'class':"language"})
         if d != None:
@@ -611,7 +612,6 @@ class BaseOTWAdapter(BaseSiteAdapter):
         foot_notes_div = append_tag(save_chapter,'div',classes="fff_chapter_notes fff_foot_notes")
         ## Can appear on every chapter
         if 'chapterfootnotes' not in exclude_notes:
-            #chapfoot = chapter_dl_soup.find('div', {'class' : "end notes module"})
             chapfoot = chapter_dl_soup.find('div', {'class' : "end notes module", 'id' : re.compile(r'^chapter_.*')})
             if chapfoot != None:
                 append_tag(foot_notes_div,'hr')
@@ -626,7 +626,6 @@ class BaseOTWAdapter(BaseSiteAdapter):
         ## headnotes from whole_dl_soup, so be sure to only do it on
         ## the last chapter.
         if 'authorfootnotes' not in exclude_notes and index+1 == self.num_chapters():
-            #footnotes = whole_dl_soup.find('div', {'id' : "work_endnotes"})
             footnotes = whole_dl_soup.find('div', {'id' : "work_endnotes", 'class' : "end notes module"})
             if footnotes != None:
                 footnotes = footnotes.find('blockquote')
