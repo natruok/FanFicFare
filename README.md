@@ -98,6 +98,8 @@ titlepage_end:
  </body>
  </html>
 
+## excludes this from within the chapters, as per default fff plugin
+## inspired links section to be updated, don't have a lot of fics with that to test & make sure it works properly yet
 exclude_notes:authorheadnotes,authorfootnotes
 #,inspiredlinks
 
