@@ -348,12 +348,11 @@ class BaseOTWAdapter(BaseSiteAdapter):
                 a.name='div' # Change blockquote to div.
                 self.setHeadNote(url,a)
 
-        #a = metasoup.find('ul', {'class' : "associations"}).find('blockquote', {'class' : "userstuff"})
-        #if a != None:
-            #a.name='div' # Change blockquote to div.
-            #self.setUlAssoc(url,a)
+        a = metasoup.find('ul', {'class' : "associations"})
+        if a != None:
+            a.name='div' # Change blockquote to div.
+            self.setAssocNote(url,a)
         
-        #if self.story.getMetadataRaw("status") == "Completed":
         a = metasoup.find('div', {'id' : "work_endnotes"})        
         if a != None:
             a = a.find('blockquote')

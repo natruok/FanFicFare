@@ -656,6 +656,23 @@ try to download.</p>
         else:
             self.story.setMetadata('headnote',stripHTML(svalue))
 
+    def setAssocNote(self,url,svalue):
+        strval = u"%s"%svalue # works for either soup or string
+        if self.getConfig('keep_summary_html'):
+            # remove extra whitespaces since HTML ignores them anyway.
+            # some sites waste a lot of the description_limit on
+            # spaces otherwise.
+            strval = re.sub(r'[ \t\n\r\f\v]{2,}',' ',strval) # \s is localized.
+
+        if self.getConfig('keep_summary_html'):
+            if isinstance(svalue,basestring):
+                # bs4/html5lib add html, header and body tags, which
+                # we don't want.  utf8FromSoup will strip the body tags for us.
+                svalue = BeautifulSoup(svalue,"html5lib").body
+            self.story.setMetadata('assocnote',self.utf8FromSoup(url,svalue))
+        else:
+            self.story.setMetadata('assocnote',stripHTML(svalue))
+
     def setEndNote(self,url,svalue):
         strval = u"%s"%svalue # works for either soup or string
         if self.getConfig('keep_summary_html'):
