@@ -377,6 +377,7 @@ def get_valid_keywords():
                  'epub_version',
                  'exclude_editor_signature',
                  'exclude_notes',
+                 'hrline',
                  'notelabel_authorheadnotes',
                  'notelabel_chaptersummary',
                  'notelabel_chapterheadnotes',

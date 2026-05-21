@@ -601,7 +601,7 @@ class BaseOTWAdapter(BaseSiteAdapter):
                     head_notes_div.append(chapnotes)
 
             if chapsumm != None or chapnotes != None:
-                append_tag(head_notes_div,'hr')
+                append_tag(head_notes_div,self.getConfig("hrline"),"")
 
         text = chapter_dl_soup.find('div', {'class' : "userstuff module"})
         chtext = text.find('h3', {'class' : "landmark heading"})
@@ -614,7 +614,7 @@ class BaseOTWAdapter(BaseSiteAdapter):
         if 'chapterfootnotes' not in exclude_notes:
             chapfoot = chapter_dl_soup.find('div', {'class' : "end notes module", 'id' : re.compile(r'^chapter_.*')})
             if chapfoot != None:
-                append_tag(foot_notes_div,'hr')
+                append_tag(foot_notes_div,self.getConfig("hrline"),"")
                 chapfoot = chapfoot.find('blockquote')
                 append_tag(foot_notes_div,'b',self.getConfig("notelabel_chapterfootnotes","Notes for the Chapter:"))
                 foot_notes_div.append(chapfoot)
