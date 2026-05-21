@@ -13,6 +13,183 @@
 - add configurable "other" page
 
 <HR/>
+
+**PERSONAL.INI CUSTOMIZATIONS REQUIRED:**
+
+```
+[epub]
+## Used add_to for everything to not replace the ao3 defaults
+## Updates to labels from original FFF default ini
+rating_level_label:Rating
+chapterslashtotal_label:Chapters
+warnings_label:Archive Warning
+freeformtags_label:Additional Tags
+freefromtags_label:Additional Tags
+ao3categories_label:Category
+series04HTML_label:Additional Series
+
+## create additional links — only part of edited FFF plugin:
+add_to_extra_valid_entries:,ratingUrl, fandomsUrl, freeformtagsUrl, ao3categoriesUrl, charactersUrl, warningsUrl, shipsUrl,
+ ratingHTML, fandomsHTML, freeformtagsHTML, ao3categoriesHTML, charactersHTML, warningsHTML, shipsHTML,
+ series04, series04HTML, freeformtags_list_separator, seriesindex,
+ headnote, endnote, assocnote
+add_to_make_linkhtml_entries:, rating, fandoms, freeformtags, ao3categories, characters, warnings, ships,
+ ratingUrl, fandomsUrl, freeformtagsUrl, ao3categoriesUrl, charactersUrl, warningsUrl, shipsUrl,
+ ratingHTML, fandomsHTML, freeformtagsHTML, ao3categoriesHTML, charactersHTML, warningsHTML, shipsHTML,
+ series04, series04HTML
+
+## added for links, only part of edited FFF plugin:
+ratingHTML_label:Rating
+warningsHTML_label:Archive Warning
+ao3categoriesHTML_label:Category
+fandomsHTML_label:Fandom
+shipsHTML_label:Relationship
+freeformtagsHTML_label:Additional Tags
+charactersHTML_label:Characters
+## below only required if intending to use headnote/endnote as part of titlepage entries
+headnote_label: Author's Note:
+endnote_label: End Notes:
+
+## Customizable headers for the different OTW story notes:
+notelabel_authorheadnotes:Author's Note:
+notelabel_chaptersummary:Chapter Summary:
+notelabel_chapterheadnotes:Chapter Notes:
+notelabel_chapterfootnotes:Chapter End Notes:
+notelabel_authorfootnotes:End Notes:
+
+## hr = add horizontal line break between chapter head & end notes; leave blank or remove if no line wanted
+hrline:hr
+
+## TITLE PAGE
+## Updated for titlepageentry div class — to indent info, and break out byline
+titlepage_start:<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+ <html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+ <title>${title} by ${author}</title>
+ <link href="stylesheet.css" type="text/css" charset="UTF-8" rel="stylesheet"/>
+ </head>
+ <body class="fff_titlepage">
+ <h3><a href="${storyUrl}">${title}</a></h3>
+ <div class="byline">by ${authorHTML}</div>
+ <div>
+
+titlepage_entries: ratingHTML, warningsHTML, ao3categoriesHTML, fandomsHTML, shipsHTML, charactersHTML, freeformtagsHTML, language,
+ seriesHTML, collectionsHTML, <br/>
+
+titlepage_entry:
+ <b>${label}:</b><div class="titlepageentry">${value}</div><br />
+
+background_color: 000000
+
+titlepage_end:
+ <b>Stats:</b>
+ <div class="titlepageentry">Published: ${datePublished}</div><br />
+ <div class="titlepageentry">Updated: ${dateUpdated}</div><br />
+ <div class="titlepageentry">Status: ${status}</div><br />
+ <div class="titlepageentry">Words: ${numWords} | Chapters: ${chapterslashtotal}</div><hr />
+
+ <b>Downloaded:</b>
+ <div class="titlepageentry">${dateCreated}</div><br />
+ <div class="titlepageentry">Kudos: ${kudos} | Hits: ${hits}</div><br/>
+ <div class="titlepageentry">Bookmarks: ${bookmarks}</div>
+
+ </div>
+ </body>
+ </html>
+
+exclude_notes:authorheadnotes,authorfootnotes
+#,inspiredlinks
+
+## SUMMARY PAGE — below are the defaults, can edit as needed
+## to include summary page, between title page & toc/ch 1: true/false
+## add in summarypage_start section and update to override section for author head notes
+include_summarypage: true
+
+## format if the fic doesn't have author headnotes
+summarypage_start:
+ <?xml version="1.0" encoding="UTF-8"?>
+ <html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+ <title>${title} by ${author}</title>
+ <link href="stylesheet.css" type="text/css" rel="stylesheet"/>
+ </head>
+ <body class="fff_summarypage">
+ <div>
+ <h3>Summary</h3>
+ ${description}
+
+## format if the fic has author headnotes
+summarypage_headnote_start:
+ <?xml version="1.0" encoding="UTF-8"?>
+ <html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+ <title>${title} by ${author}</title>
+ <link href="stylesheet.css" type="text/css" rel="stylesheet"/>
+ </head>
+ <body class="fff_summarypage">
+ <div>
+ <h3>Summary</h3>
+ ${description}
+ <hr/>
+ <p><b>Author's Note:</b></p>
+ <blockquote>${headnote}</blockquote>
+
+summarypage_end:
+ </div>                                                            
+ </body>
+ </html>
+
+## TOC PAGE — part of original fff plugin
+## to include TOC page: true = if chapters > 1, always = always, false = off
+include_tocpage: false
+
+## AFTERWORD PAGE — below are the defaults, can edit as needed
+## include afterword page: true = yes, smart = only if Completed, false = off
+include_afterpage: smart
+
+afterpage_start:
+ <?xml version="1.0" encoding="UTF-8"?>
+ <html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+ <title>Afterword</title>
+ <link href="stylesheet.css" type="text/css" rel="stylesheet"/>
+ </head>
+ <body class="fff_afterpage">
+ <h3>Afterword</h3>
+ <b>End Notes:</b>
+ <blockquote>${endnote}</blockquote>
+
+afterpage_end:
+ </body>
+ </html>
+
+## CSS
+## to add in titlepageentry & byline div classes for customized title page
+add_to_output_css:
+ .titlepageentry { text-align: left; display:inline-block; padding-left: 15px; }
+ .byline { display: block; text-align: center;  margin: 0.67em 0; }
+## below are optional
+ body { line-height: 1.6; }
+ body.fff_titlepage div > b { font-weight: bold; display: block; margin-top: 0.6em; }
+
+ a.serieslink { color: #6ba3be; }
+ a.authorlink { color: #6ba3be; }
+ a.storyurl { color: #6ba3be; }
+
+[overrides]
+# to keep Relationships in order w/ URLS - only part of edited FFF plugin
+keep_in_order_ships:true
+sort_ships:true
+
+## to keep Additional Tags in order w/ URLs — only part of edited FFF plugin
+keep_in_order_freeformtags:true
+keep_in_order_freeformtagsUrl:true
+```
+
+<hr/>
+<hr/>
+
 **ARCHIVED NOTES:**
 
 Latest stable: [v46](https://github.com/natruok/FanFicFare/releases/tag/v46)
@@ -30,81 +207,3 @@ Latest stable: [v46](https://github.com/natruok/FanFicFare/releases/tag/v46)
 - add line break between chapter head & foot notes — DONE, see [v51](https://github.com/natruok/FanFicFare/releases/tag/v51)
 - strip chapter titles & redo only if the chapter isn't named "Chapter #"
 - update series naming to "Part # of xxx", but keep indexing by series name
-
-
-
-<hr/>
-
-
-
-[FanFicFare](https://github.com/JimmXinu/FanFicFare)
-==========
-
-FanFicFare makes reading stories from various websites much easier by helping
-you download them to EBook files.
-
-FanFicFare was previously known as FanFictionDownLoader (AKA
-FFDL, AKA fanficdownloader).
-
-Main features:
-
-- Download FanFiction stories from over [100 different sites](https://github.com/JimmXinu/FanFicFare/wiki/SupportedSites). into ebooks.
-
-- Update previously downloaded EPUB format ebooks, downloading only new chapters.
-
-- Get Story URLs from Web Pages.
-
-- Support for downloading images in the story text. (EPUB and HTML
-  only -- download EPUB and convert to AZW3 for Kindle) More details on
-  configuring images in stories and cover images can be found in the
-  [FAQs] or [this post in the old FFDL thread].
-
-- Support for cover image. (EPUB only)
-
-- Optionally keep an Update Log of past updates (EPUB only).
-
-There's additional info in the project [wiki] pages.
-
-There's also a [FanFicFare maillist] for discussion and announcements and a [discussion thread] for the Calibre plugin.
-
-Getting FanFicFare
-==================
-
-### Official Releases
-
-This program is available as:
-
-- A Calibre plugin from within Calibre or directly from the plugin [discussion thread], or;
-- A Command Line Interface (CLI) [Python
-  package](https://pypi.python.org/pypi/FanFicFare) that you can
-  install with:
-```
-pip install FanFicFare
-```
-- _As of late November 2019, the web service version is shutdown.  See the [Wiki Home](https://github.com/JimmXinu/FanFicFare/wiki#web-service-version) page for details._
-
-### Test Versions
-
-FanFicFare is released roughly every month, but new test versions are posted more frequently as changes are made.
-
-Test versions are available at:
-
-- The [test plugin] is posted at MobileRead.
-- The test version of CLI for pip install is uploaded to the testpypi repository and can be installed with:
-```
-pip install --extra-index-url https://test.pypi.org/simple/ --upgrade FanFicFare
-```
-
-### Other Releases
-
-Other versions may be available depending on your OS.  I(JimmXinu) don't directly support these:
-
-- **Arch Linux**: The latest CLI release can be obtained from the [fanficfare](https://aur.archlinux.org/packages/fanficfare) AUR package. It will install the calibre plugin, if calibre is installed.
-
-
-[this post in the old FFDL thread]: https://www.mobileread.com/forums/showthread.php?p=1982785#post1982785
-[FAQs]: https://github.com/JimmXinu/FanFicFare/wiki/FAQs#can-fanficfare-download-a-story-containing-images
-[FanFicFare maillist]: https://groups.google.com/group/fanfic-downloader
-[wiki]: https://github.com/JimmXinu/FanFicFare/wiki
-[discussion thread]: https://www.mobileread.com/forums/showthread.php?t=259221
-[test plugin]: https://www.mobileread.com/forums/showthread.php?p=3084025&postcount=2
