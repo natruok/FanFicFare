@@ -1,25 +1,13 @@
-fff-edited is the combination of all changes noted below — can use the versinon with features desired.
+**Everything below should be configurable within personal.ini — see attachments in release.**
 
-**UPDATES** — will use versions .# in the future for fixes:
+**Changes made:**
+1. added links for all individual metadata on title page, like with ao3 export
+2. added author/overall work headnotes, associations, and footnotes to metadata
+3. created separate summary page that also shows on TOC — shows summary description + work headnotes with horizontal line in between
+4. created separate afterword page that also shows on TOC and shows up at the end — includes work end notes, appears if work end notes exist, option to only show up if completed
+5. add line break between chapter head & foot notes
 
-**vPAGES** — combined, as inclusion of pages and notes is configurable
-
-_branch 1 (up to v31)_
-- add links to all metadata on title page like with ao3 export
-- create separate summary page that also shows up in TOC
-
-_branch 2 (up to v45) & branch 4 (up to v50)_
-- create separate afterword page that also showd up in TOC for overall work end notes
-- separate overall author head notes into summary page rather than at beginning of ch 1
-- afterword page to show up only if there are overall end notes
-- summary page to show horizontal line for line break and author's note only if it exists
-- separate work end notes into afterword page rather than end of chapter
-- make new summary & afternote pages configurable in personal.ini
-
-**vCHAP** - _branch 5 (up to v51)_
-- add line break between chapter head & foot notes
-
-Pending:
+**Pending:**
 - strip chapter titles & redo only if the chapter isn't named "Chapter #"
 - update series naming to "Part # of xxx", but keep indexing by series name
 - add configurable "other" page
