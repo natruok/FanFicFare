@@ -7,7 +7,7 @@
 4. created separate afterword page that also shows on TOC and shows up at the end — includes work end notes, appears if work end notes exist, option to only show up if completed
 5. add line break between chapter head & foot notes
 6. add configurable "other" page
-7. update series naming to "Part # of xxx", but keep indexing by series name
+7. created series naming option to "Part # of xxx", but keep indexing by series name
 
 **Pending:**
 - strip chapter titles & redo only if the chapter isn't named "Chapter #"
@@ -15,7 +15,7 @@
 
 <HR/>
 
-**PERSONAL.INI CUSTOMIZATIONS REQUIRED:**
+**PERSONAL.INI CUSTOMIZATIONS REQUIRED TO APPLY ABOVE — not all required:**
 
 ```
 [epub]
