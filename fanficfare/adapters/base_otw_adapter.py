@@ -470,7 +470,11 @@ class BaseOTWAdapter(BaseSiteAdapter):
                 series_name = stripHTML(a)
                 series_url = 'https://'+self.host+a['href']
                 series_index = int(stripHTML(a.previousSibling).replace(', ','').split(' ')[1]) # "Part # of" or ", Part #"
-                self.story.setMetadata('series%02d'%i,"%s [%s]"%(series_name,series_index))
+                linkhtml="<a class='%slink' href='%s'>%s</a>"
+                #self.story.setMetadata('series%02d'%i,"%s [%s]"%(series_name,series_index))
+                self.story.setMetadata('series%02d'%i,"%s"%(series_name))
+                self.story.setMetadata('series%02dTitle'%i,"Part %s of %s"%(series_index,linkhtml%(series_name,series_url,series_name)))
+                self.story.setMetadata('series%02dIndex'%i,series_index)
                 self.story.setMetadata('series%02dUrl'%i,series_url)
                 if i == 0:
                     self.setSeries(series_name, series_index)
