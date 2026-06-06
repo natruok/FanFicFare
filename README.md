@@ -6,11 +6,12 @@
 3. created separate summary page that also shows on TOC — shows summary description + work headnotes with horizontal line in between
 4. created separate afterword page that also shows on TOC and shows up at the end — includes work end notes, appears if work end notes exist, option to only show up if completed
 5. add line break between chapter head & foot notes
+6. add configurable "other" page
 
 **Pending:**
 - strip chapter titles & redo only if the chapter isn't named "Chapter #"
 - update series naming to "Part # of xxx", but keep indexing by series name
-- add configurable "other" page
+- add inspired links section to work end notes
 
 <HR/>
 
@@ -98,6 +99,8 @@ titlepage_end:
  </body>
  </html>
 
+## excludes this from within the chapters, as per default fff plugin
+## inspired links section to be updated, don't have a lot of fics with that to test & make sure it works properly yet
 exclude_notes:authorheadnotes,authorfootnotes
 #,inspiredlinks
 
