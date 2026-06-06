@@ -7,10 +7,10 @@
 4. created separate afterword page that also shows on TOC and shows up at the end — includes work end notes, appears if work end notes exist, option to only show up if completed
 5. add line break between chapter head & foot notes
 6. add configurable "other" page
+7. update series naming to "Part # of xxx", but keep indexing by series name
 
 **Pending:**
 - strip chapter titles & redo only if the chapter isn't named "Chapter #"
-- update series naming to "Part # of xxx", but keep indexing by series name
 - add inspired links section to work end notes
 
 <HR/>
@@ -27,17 +27,16 @@ warnings_label:Archive Warning
 freeformtags_label:Additional Tags
 freefromtags_label:Additional Tags
 ao3categories_label:Category
-series04HTML_label:Additional Series
 
 ## create additional links — only part of edited FFF plugin:
 add_to_extra_valid_entries:,ratingUrl, fandomsUrl, freeformtagsUrl, ao3categoriesUrl, charactersUrl, warningsUrl, shipsUrl,
  ratingHTML, fandomsHTML, freeformtagsHTML, ao3categoriesHTML, charactersHTML, warningsHTML, shipsHTML,
- series04, series04HTML, freeformtags_list_separator, seriesindex,
- headnote, endnote, assocnote
+ freeformtags_list_separator, seriesindex,
+ headnote, endnote, assocnote,
+ series00Title, series01Title, series02Title, series03Title
 add_to_make_linkhtml_entries:, rating, fandoms, freeformtags, ao3categories, characters, warnings, ships,
  ratingUrl, fandomsUrl, freeformtagsUrl, ao3categoriesUrl, charactersUrl, warningsUrl, shipsUrl,
- ratingHTML, fandomsHTML, freeformtagsHTML, ao3categoriesHTML, charactersHTML, warningsHTML, shipsHTML,
- series04, series04HTML
+ ratingHTML, fandomsHTML, freeformtagsHTML, ao3categoriesHTML, charactersHTML, warningsHTML, shipsHTML
 
 ## added for links, only part of edited FFF plugin:
 ratingHTML_label:Rating
@@ -50,6 +49,10 @@ charactersHTML_label:Characters
 ## below only required if intending to use headnote/endnote as part of titlepage entries
 headnote_label: Author's Note:
 endnote_label: End Notes:
+series00Title_label:Series
+series01Title_label:
+series02Title_label:
+series03Title_label:
 
 ## Customizable headers for the different OTW story notes:
 notelabel_authorheadnotes:Author's Note:
@@ -75,28 +78,37 @@ titlepage_start:<?xml version="1.0" encoding="UTF-8"?>
  <div class="byline">by ${authorHTML}</div>
  <div>
 
-titlepage_entries: ratingHTML, warningsHTML, ao3categoriesHTML, fandomsHTML, shipsHTML, charactersHTML, freeformtagsHTML, language,
- seriesHTML, collectionsHTML, <br/>
+titlepage_entries: ratingHTML, warningsHTML, ao3categoriesHTML, fandomsHTML, shipsHTML,
+ <div style="page-break-before: always;">, charactersHTML, freeformtagsHTML, language,
+ series00Title,
+ <div class="titlepageentry">,series01Title,</div><br />,
+ <div class="titlepageentry">,series02Title,</div><br />,
+ <div class="titlepageentry">,series03Title,</div><br />,
+ collectionsHTML, </div>
 
 titlepage_entry:
  <b>${label}:</b><div class="titlepageentry">${value}</div><br />
 
-background_color: 000000
-
 titlepage_end:
+ <div style="page-break-before: always;">
+ <br />
  <b>Stats:</b>
  <div class="titlepageentry">Published: ${datePublished}</div><br />
  <div class="titlepageentry">Updated: ${dateUpdated}</div><br />
  <div class="titlepageentry">Status: ${status}</div><br />
- <div class="titlepageentry">Words: ${numWords} | Chapters: ${chapterslashtotal}</div><hr />
+ <div class="titlepageentry">Words: ${numWords}</div><br />
+ <div class="titlepageentry">Chapters: ${chapterslashtotal}</div>
+ <hr />
 
  <b>Downloaded:</b>
- <div class="titlepageentry">${dateCreated}</div><br />
- <div class="titlepageentry">Kudos: ${kudos} | Hits: ${hits}</div><br/>
+ <div class="titlepageentry">Date: ${dateCreated}</div><br />
+ <div class="titlepageentry">Kudos: ${kudos}</div><br/>
+ <div class="titlepageentry">Hits: ${hits}</div><br/>
  <div class="titlepageentry">Bookmarks: ${bookmarks}</div>
-
+ </div>
  </div>
  </body>
+ </html>
  </html>
 
 ## excludes this from within the chapters, as per default fff plugin
