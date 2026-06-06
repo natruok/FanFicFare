@@ -610,7 +610,8 @@ try to download.</p>
             num = float(num)
             if num.is_integer():
                 num = int(num)
-            self.story.setMetadata('series','%s [%s]'%(name, num))
+            #self.story.setMetadata('series','%s [%s]'%(name, num))
+            self.story.setMetadata('series','%s'%(name))
 
     def setDescription(self,url,svalue):
         #print("\n\nsvalue:\n%s\n"%svalue)
