@@ -156,8 +156,9 @@ def do_download_for_worker(book,options,merge,notification=lambda x,y:x):
             book['comment'] = _('Download started...')
 
             configuration = get_fff_config(book['url'],
-                                            options['fileform'],
-                                            options['personal.ini'])
+                                           options['fileform'],
+                                           options['personal.ini'],
+                                           ini_snippet=options.get('ini_snippet',None))
 
             # images only for epub, html, even if the user mistakenly
             # turned it on else where.
@@ -394,10 +395,18 @@ def inject_cal_cols(book,story,configuration):
         extra_valid = []
         for k in book['calibre_columns'].keys():
             v = book['calibre_columns'][k]
-            story.setMetadata(k,v['val'])
             injectini.append('%s_label:%s'%(k,v['label']))
             extra_valid.append(k)
         if extra_valid: # if empty, there's nothing to add.
             injectini.append("add_to_extra_valid_entries:,"+','.join(extra_valid))
+
+            # extra_valid_entries was already populated, clear cache.
+            configuration.reset_cached_config()
             configuration.read_file(StringIO('\n'.join(injectini)))
-            #print("added:\n%s\n"%('\n'.join(injectini)))
+            # logger.debug("added:\n%s\n"%('\n'.join(injectini)))
+
+            # loop a second time to set values so extra_valid_entries
+            # is correct first.
+            for k in book['calibre_columns'].keys():
+                v = book['calibre_columns'][k]
+                story.setMetadata(k,v['val'])

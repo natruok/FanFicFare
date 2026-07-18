@@ -29,7 +29,7 @@ logger = logging.getLogger(__name__)
 
 # py2 vs py3 transition
 from . import six
-from .six.moves.urllib.parse import (urlparse, urlunparse)
+from .six.moves.urllib.parse import (urlparse, urljoin)
 from .six import text_type as unicode
 from .six import string_types as basestring
 from .six import ensure_binary, ensure_str
@@ -1690,30 +1690,8 @@ class Story(Requestable):
             if url.startswith("http") or url.startswith("file:") or parenturl == None:
                 imgurl = url
             else:
-                parsedUrl = urlparse(parenturl)
-                if url.startswith("//") :
-                    imgurl = urlunparse(
-                        (parsedUrl.scheme,
-                         '',
-                         url,
-                         '','',''))
-                elif url.startswith("/") :
-                    imgurl = urlunparse(
-                        (parsedUrl.scheme,
-                         parsedUrl.netloc,
-                         url,
-                         '','',''))
-                else:
-                    toppath=""
-                    if parsedUrl.path.endswith("/"):
-                        toppath = parsedUrl.path
-                    elif parsedUrl.path:
-                        toppath = parsedUrl.path[:parsedUrl.path.rindex('/')+1]
-                    imgurl = urlunparse(
-                        (parsedUrl.scheme,
-                         parsedUrl.netloc,
-                         toppath + url,
-                         '','',''))
+                imgurl = urljoin(parenturl,url)
+                logger.debug("urljoin: (%s)+(%s)->(%s)"%(parenturl,url,imgurl))
 
         ## apply coverexclusion to specific covers, too.  Primarily for ffnet imageu.
         ## (Note that default and force covers don't pass cover_exclusion_regexp)
@@ -1726,7 +1704,11 @@ class Story(Requestable):
         if not imginfo:
             try:
                 if imgurl.startswith('failedtoload'):
-                    return (imgurl,'')
+                    if self.getConfig('retry_failedtoload_images') and re.match(r'^failedtoload (https?|file|ftp):',imgurl): # option
+                        imgurl = imgurl[len('failedtoload '):]
+                        logger.debug("\n\nRetrying failedtoload img(%s)\n"%imgurl)
+                    else:
+                        return (imgurl,'')
 
                 if not imgdata:
                     # might already have from data:image in-line allow

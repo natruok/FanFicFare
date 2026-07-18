@@ -289,6 +289,7 @@ def get_valid_set_options():
                'no_image_processing':(None,['epub','html'],boollist),
                'dedup_img_files':(None,['epub','html'],boollist),
                'convert_inline_images':(None,['epub','html'],boollist),
+               'retry_failedtoload_images':(None,['epub'],boollist),
                'fix_relative_text_links':(None,['epub','html'],boollist),
                'normalize_text_links':(None,['epub','html'],boollist),
                'internalize_text_links':(None,['epub','html'],boollist),
@@ -621,6 +622,12 @@ class Configuration(ConfigParser):
         self.url_config_set = False
 
         ## to improve performance, cache config values.
+        self.reset_cached_config()
+
+    def reset_cached_config(self):
+        ## should argubly be called by read_file, etc, but there's
+        ## several read methods.  Revisit if ever needed from more
+        ## than just calibre-plugin/jobs.py:inject_cal_cols()
         self.cached_config = {}
 
     def section_url_names(self,domain,section_url_f):
