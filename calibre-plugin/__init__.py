@@ -33,7 +33,7 @@ except NameError:
 from calibre.customize import InterfaceActionBase
 
 # pulled out from FanFicFareBase for saving in prefs.py
-__version__ = (4, 59, 0)
+__version__ = (4, 59, 6)
 
 ## Apparently the name for this class doesn't matter--it was still
 ## 'demo' for the first few versions.
@@ -47,7 +47,7 @@ class FanFicFareBase(InterfaceActionBase):
     The reason for having two classes is that it allows the command line
     calibre utilities to run without needing to load the GUI libraries.
     '''
-    name                = 'FanFicFare_edited v2'
+    name                = 'FanFicFare_edited v2.1'
     description         = _('UI plugin to download FanFiction stories from various sites.')
     supported_platforms = ['windows', 'osx', 'linux']
     author              = 'Jim Miller'
