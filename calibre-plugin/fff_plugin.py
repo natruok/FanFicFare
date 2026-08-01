@@ -5,7 +5,7 @@ __copyright__ = '2021, Jim Miller'
 __docformat__ = 'restructuredtext en'
 
 import fanficfare.six as six
-from fanficfare.six import ensure_text, string_types, text_type as unicode
+from fanficfare.six import ensure_text, string_types
 
 import logging
 logger = logging.getLogger(__name__)
@@ -1139,7 +1139,7 @@ class FanFicFarePlugin(InterfaceAction):
     def get_urls_clip(self,storyurls=True):
         url_list = []
         if prefs['urlsfromclip']:
-            for url in unicode(QApplication.instance().clipboard().text()).split():
+            for url in str(QApplication.instance().clipboard().text()).split():
                 if not storyurls or self.is_good_downloader_url(url):
                     url_list.append(url)
 
@@ -2519,7 +2519,7 @@ class FanFicFarePlugin(InterfaceAction):
                     joined_val = joined_val.replace(', ',' & ')
                 self.set_custom(db, book_id, meta, joined_val, label, commit=False)
             elif coldef['datatype'] in ('int','float'):
-                num = unicode(book['all_metadata'][meta]).replace(",","")
+                num = str(book['all_metadata'][meta]).replace(",","")
                 if num != '':
                     self.set_custom(db, book_id, meta, num, label=label, commit=False)
             elif coldef['datatype'] == 'bool' and meta.startswith('status-'):
@@ -2588,7 +2588,7 @@ class FanFicFarePlugin(InterfaceAction):
                                     else:
                                         val = sum(items)
                             else:
-                                val = unicode(val).replace(",","")
+                                val = str(val).replace(",","")
                         else:
                             val = val
                         if coldef['datatype'] == 'bool':
@@ -3120,7 +3120,7 @@ The previously downloaded book is still in the anthology, but FFF doesn't have t
                                 book['all_metadata'][k] = b['all_metadata'][k]
                             else:
                                 # lot of work for a simple add.
-                                book['all_metadata'][k] = unicode(int(book['all_metadata'][k].replace(',',''))+int(b['all_metadata'][k].replace(',','')))
+                                book['all_metadata'][k] = str(int(book['all_metadata'][k].replace(',',''))+int(b['all_metadata'][k].replace(',','')))
                     elif k in ('dateUpdated','datePublished','dateCreated',
                                'series','status','title'):
                         pass # handled above, below or skip these for now, not going to do anything with them.

@@ -20,7 +20,6 @@ import threading
 import logging
 logger = logging.getLogger(__name__)
 
-from ..six import text_type as unicode
 from ..six import ensure_text
 
 from .base_fetcher import FetcherResponse
@@ -73,7 +72,7 @@ class BasicCache(object):
             keylist=[url]
             if parameters != None:
                 keylist.append('&'.join('{0}={1}'.format(key, val) for key, val in sorted(parameters.items())))
-            return unicode('?'.join(keylist))
+            return str('?'.join(keylist))
 
     def has_cachekey(self,cachekey):
         with self.cache_lock:

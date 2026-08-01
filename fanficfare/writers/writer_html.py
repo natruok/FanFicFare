@@ -20,7 +20,6 @@ import string
 import re
 
 # py2 vs py3 transition
-from ..six import text_type as unicode
 
 import bs4
 
@@ -155,7 +154,7 @@ ${output_css}
                             alink['href']=chapurlmap[alink['href']]
                             changed=True
                     if changed:
-                        chap_data = unicode(soup)
+                        chap_data = str(soup)
                         # Don't want html, head or body tags in
                         # chapter html--bs4 insists on adding them.
                         chap_data = re.sub(r"</?(html|head|body)[^>]*>\r?\n?","",chap_data)

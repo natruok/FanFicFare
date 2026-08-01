@@ -22,7 +22,6 @@ import re
 
 # py2 vs py3 transition
 from .six.moves.urllib.parse import unquote
-from .six import text_type as unicode
 from .six import string_types as basestring
 from .six import ensure_text
 from .six import unichr
@@ -100,7 +99,7 @@ def removeEntities(text, space_only=False, remove_all_entities=False):
         return u""
 
     if not isinstance(text,basestring):
-        text = unicode(text)
+        text = str(text)
 
     try:
         t = text

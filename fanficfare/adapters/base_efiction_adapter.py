@@ -26,7 +26,6 @@ from ..htmlcleanup import stripHTML
 from .. import exceptions as exceptions
 
 # py2 vs py3 transition
-from ..six import text_type as unicode
 
 from .base_adapter import BaseSiteAdapter, makeDate
 
@@ -380,7 +379,7 @@ class BaseEfictionAdapter(BaseSiteAdapter):
                     errorDiv = soup.find("div", "errortext")
                     self.triedLoggingIn = True
                 else:
-                    raise exceptions.FailedToLogin(self.url, unicode(errorDiv))
+                    raise exceptions.FailedToLogin(self.url, str(errorDiv))
             elif "This story has not been validated" in stripHTML(errorDiv):
                 raise exceptions.AccessDenied(self.getSiteDomain() +" says: "+stripHTML(errorDiv))
             else:
@@ -426,7 +425,7 @@ class BaseEfictionAdapter(BaseSiteAdapter):
                 if (type(nextEl) is bs.Tag):
                     valueStr += nextEl.prettify()
                 else:
-                    valueStr += unicode(nextEl)
+                    valueStr += str(nextEl)
                 nextEl = nextEl.nextSibling
             key = stripHTML(labelSpan)
 

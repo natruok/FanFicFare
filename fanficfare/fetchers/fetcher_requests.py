@@ -19,7 +19,6 @@ import logging
 logger = logging.getLogger(__name__)
 
 # py2 vs py3 transition
-from ..six import text_type as unicode
 from .. import exceptions
 
 from urllib3.util.retry import Retry

@@ -21,7 +21,6 @@ logger = logging.getLogger(__name__)
 # py2 vs py3 transition
 from ..six.moves.urllib.parse import quote_plus
 from ..six.moves.http_cookiejar import LWPCookieJar, MozillaCookieJar
-from ..six import text_type as unicode
 from ..six import ensure_binary
 
 class FetcherResponse(object):

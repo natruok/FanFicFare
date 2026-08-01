@@ -23,7 +23,6 @@ from ..htmlcleanup import stripHTML
 from .. import exceptions as exceptions
 
 # py2 vs py3 transition
-from ..six import text_type as unicode
 
 from .base_adapter import BaseSiteAdapter,  makeDate
 
@@ -151,7 +150,7 @@ class ErosnSapphoSycophantHexComAdapter(BaseSiteAdapter):
             val = value
             value = value.previousSibling
         while 'label' not in defaultGetattr(val,'class'):
-            svalue += unicode(val)
+            svalue += str(val)
             val = val.nextSibling
         self.setDescription(url,svalue)
 

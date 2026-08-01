@@ -20,7 +20,6 @@ from calibre.utils.config import config_dir
 from calibre.utils.date import now, format_date, qt_to_dt, UNDEFINED_DATE
 
 import fanficfare.six as six
-from six import text_type as unicode
 
 # Global definition of our plugin name. Used for common functions that require this.
 plugin_name = None
@@ -377,7 +376,7 @@ class PrefsViewerDialog(SizePersistedDialog):
         if new_row < 0:
             self.value_text.clear()
             return
-        key = unicode(self.keys_list.currentItem().text())
+        key = str(self.keys_list.currentItem().text())
         val = self.db.prefs.get_namespaced(self.namespace, key, '')
         self.value_text.setPlainText(self.db.prefs.to_raw(val))
 
@@ -401,7 +400,7 @@ class PrefsViewerDialog(SizePersistedDialog):
         if not confirm(message, self.namespace+'_save_settings', self):
             return
         ns_prefix = self._get_ns_prefix()
-        key = unicode(self.keys_list.currentItem().text())
+        key = str(self.keys_list.currentItem().text())
         self.db.prefs.set_namespaced(self.namespace, key,
                                      self.db.prefs.raw_to_object(self.value_text.toPlainText()))
         d = info_dialog(self, 'Settings saved',

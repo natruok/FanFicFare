@@ -12,7 +12,6 @@ import logging
 
 # py2 vs py3 transition
 from .six.moves.urllib.parse import unquote
-from .six import text_type as unicode
 from .six import ensure_binary
 
 # import bs4
@@ -71,7 +70,7 @@ class HtmlProcessor:
   def _ReplaceAnchorStubs(self):
     # TODO: Browsers allow extra whitespace in the href names.
 
-    assembled_text = ensure_binary(unicode(self._soup))
+    assembled_text = ensure_binary(str(self._soup))
     # html5lib/bs4 creates close tags for <mbp:pagebreak>
     assembled_text = assembled_text.replace(b'<mbp:pagebreak>',b'<mbp:pagebreak/>')
     assembled_text = assembled_text.replace(b'</mbp:pagebreak>',b'')
@@ -100,7 +99,7 @@ class HtmlProcessor:
     '''Replace <pre> tags with HTML-ified text.'''
     pres = self._soup.find_all('pre')
     for pre in pres:
-      pre.replaceWith(self._FixPreContents(unicode(pre.contents[0])))
+      pre.replaceWith(self._FixPreContents(str(pre.contents[0])))
 
   def _FixPreContents(self, text):
     if self.unfill:
@@ -135,7 +134,7 @@ class HtmlProcessor:
     # as NoneType.
     content = []
     if self._soup.body is not None:
-      content = [unicode(c) for c in self._soup.body.contents]
+      content = [str(c) for c in self._soup.body.contents]
     return '\n'.join(content)
 
   def CleanHtml(self):

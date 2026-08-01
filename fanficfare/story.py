@@ -29,7 +29,6 @@ logger = logging.getLogger(__name__)
 # py2 vs py3 transition
 from . import six
 from .six.moves.urllib.parse import (urlparse, urljoin)
-from .six import text_type as unicode
 from .six import string_types as basestring
 from .six import ensure_binary, ensure_str
 
@@ -105,7 +104,7 @@ try:
             export = True
 
         if removetrans and image_has_transparent_pixels(img):
-            canvas = Canvas(img.size().width(), img.size().height(), unicode(background))
+            canvas = Canvas(img.size().width(), img.size().height(), str(background))
             canvas.compose(img)
             img = canvas.img
             export = True
@@ -586,7 +585,7 @@ def make_chapter_text_replacements(replace):
 ## can all use so our uuids always match.
 IMG_NS = uuid.UUID('5d976d9e-7d55-4e9e-975a-8cec6c69f98e')
 def url2uuid(url):
-    return unicode(uuid.uuid5(IMG_NS,ensure_str(url)))
+    return str(uuid.uuid5(IMG_NS,ensure_str(url)))
 
 class ImageStore:
     def __init__(self,dedup=False):
@@ -892,7 +891,7 @@ class Story(Requestable):
         self.chapter_last=last
 
     def join_list(self, key, vallist):
-        return self.getConfig("join_string_"+key,u", ").replace(SPACE_REPLACE,' ').join([ unicode(x) for x in vallist if x is not None ])
+        return self.getConfig("join_string_"+key,u", ").replace(SPACE_REPLACE,' ').join([ str(x) for x in vallist if x is not None ])
 
     def setMetadata(self, key, value, condremoveentities=True):
 
@@ -902,7 +901,7 @@ class Story(Requestable):
         # Fixing everything downstream to handle bool primatives is a
         # pain.
         if isinstance(value,bool):
-            value = unicode(value)
+            value = str(value)
         # keep as list type, but set as only value.
         if self.isList(key):
             self.addToList(key,value,condremoveentities=condremoveentities,clear=True)
@@ -1100,16 +1099,16 @@ class Story(Requestable):
                     # keeps &amp; but removes <li></li> because BS4
                     # halps by converting NavigableString to string
                     # (losing entities)
-                    val.append(unicode(i)[4:-5])
+                    val.append(str(i)[4:-5])
             elif 'int' in tag['class']:
                 # Python reports true when asked isinstance(<bool>, (int))
-                # bools now converted to unicode when set.
+                # bools now converted to str when set.
                 if tag.string in ('True','False'):
                     val = tag.string
                 else:
                     val = int(tag.string)
             else:
-                val = unicode("\n".join([ unicode(c) for c in tag.contents ]))
+                val = str("\n".join([ str(c) for c in tag.contents ]))
 
             #logger.debug("key(%s)=val(%s)"%(tag['id'],val))
             if val != None:
@@ -1163,7 +1162,7 @@ class Story(Requestable):
             if value:
                 if key in ["numWords","numChapters"]+self.getConfigList("comma_entries",[]):
                     try:
-                        value = commaGroups(unicode(value))
+                        value = commaGroups(str(value))
                     except Exception as e:
                         logger.warning("Failed to add commas to %s value:(%s) exception(%s)"%(key,value,e))
                 if key in ("dateCreated"):
@@ -1501,7 +1500,7 @@ class Story(Requestable):
 
     def addChapter(self, chap, newchap=False):
         # logger.debug("addChapter(%s,%s)"%(chap,newchap))
-        chapter = defaultdict(unicode,chap) # default unknown to empty string
+        chapter = defaultdict(str,chap) # default unknown to empty string
         chapter['html'] = removeEntities(chapter['html'])
         if self.getConfig('strip_chapter_numbers') and \
                 self.getConfig('chapter_title_strip_pattern'):
@@ -1519,7 +1518,7 @@ class Story(Requestable):
         self.chapters.append(chapter)
 
     def getChapters(self,fortoc=False):
-        "Chapters will be defaultdicts(unicode)"
+        "Chapters will be defaultdicts(str)"
         retval = []
 
         ## only add numbers if more than one chapter.  Ditto (new) marks.
@@ -1560,7 +1559,7 @@ class Story(Requestable):
             else:
                 usetempl = templ
             # logger.debug("chap(%s)"%chap)
-            chapter = defaultdict(unicode,chap)
+            chapter = defaultdict(str,chap)
             ## Due to poor planning on my part,
             ## chapter_title_*_pattern expect index==1 not
             ## index=0001 like output settings.  index04 is now
@@ -1861,7 +1860,7 @@ class Story(Requestable):
         return retlist
 
     def __str__(self):
-        return "Metadata: " +unicode(self.metadata)
+        return "Metadata: " +str(self.metadata)
 
 def commaGroups(s):
     groups = []

@@ -7,7 +7,7 @@ from ..htmlcleanup import stripHTML
 from .. import exceptions as exceptions
 
 # py2 vs py3 transition
-from ..six import PY3, text_type as unicode
+from ..six import PY3
 
 from .base_adapter import BaseSiteAdapter,  makeDate
 
@@ -20,7 +20,7 @@ class SpiritFanfictionComAdapter(BaseSiteAdapter):
         BaseSiteAdapter.__init__(self, config, url)
 
         # get storyId from url--url validation guarantees query is only sid=1234
-        self.storyId = unicode(self.getStoryId(url))
+        self.storyId = str(self.getStoryId(url))
         self.story.setMetadata('storyId', self.storyId)
 
         # normalized story URL
@@ -185,7 +185,7 @@ class SpiritFanfictionComAdapter(BaseSiteAdapter):
             email_text = a_tag.string
             a_tag.replace_with(email_text)
 
-        full_text = unicode(summary)
+        full_text = str(summary)
         self.story.setMetadata('description', full_text)
 
 
@@ -318,12 +318,12 @@ class SpiritFanfictionComAdapter(BaseSiteAdapter):
 
         for tag in chapter_text.find_all('h2'):
             if tag.string.startswith('Notas do Autor'):
-                chaphead = self.make_soup(unicode(tag.find_next_sibling('div', {'class': 'texto texto-capitulo-notas'})))
+                chaphead = self.make_soup(str(tag.find_next_sibling('div', {'class': 'texto texto-capitulo-notas'})))
             elif tag.string.startswith('Notas Finais'):
-                chapfoot = self.make_soup(unicode(tag.find_next_sibling('div', {'class': 'texto texto-capitulo-notas'})))
+                chapfoot = self.make_soup(str(tag.find_next_sibling('div', {'class': 'texto texto-capitulo-notas'})))
             else:
                 # Apparently, not all chapters have the "Capítulo" text anymore, but it's the only other h2 in there
-                chaptext = self.make_soup(unicode(tag.find_next_sibling('div', {'class': 'texto'})))
+                chaptext = self.make_soup(str(tag.find_next_sibling('div', {'class': 'texto'})))
                 # Decode emails
                 self.decode_emails(chaptext)
                 if chapimg != None:
@@ -380,7 +380,7 @@ class SpiritFanfictionComAdapter(BaseSiteAdapter):
                 decoded_email = decode_email(encoded_email)
                 # Replace the obfuscated email with the decoded email
                 element.string = decoded_email
-        return unicode(html_text)
+        return str(html_text)
 
 
     def before_get_urls_from_page(self,url,normalize):

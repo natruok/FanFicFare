@@ -23,7 +23,6 @@ from ..htmlcleanup import stripHTML
 from .. import exceptions as exceptions
 
 # py2 vs py3 transition
-from ..six import text_type as unicode
 
 from .base_adapter import BaseSiteAdapter,  makeDate
 
@@ -147,7 +146,7 @@ class TwilightedNetSiteAdapter(BaseSiteAdapter):
                 ## Everything until the next span class='label'
                 svalue = ""
                 while 'label' not in defaultGetattr(value,'class'):
-                    svalue += unicode(value)
+                    svalue += str(value)
                     value = value.nextSibling
                 self.setDescription(url,svalue)
 

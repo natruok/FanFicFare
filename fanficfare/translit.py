@@ -2,7 +2,6 @@
 # Code taken from http://python.su/forum/viewtopic.php?pid=66946
 
 # py2 vs py3 transition
-from .six import text_type as unicode
 from .six import ensure_text
 
 import unicodedata
@@ -15,11 +14,11 @@ def is_consonant(letter):
     return not is_syllable(letter)
 def romanize(letter):
     try:
-        unicode(letter)
+        str(letter)
     except UnicodeEncodeError:
         pass
     else:
-        return unicode(letter)
+        return str(letter)
     unid = unicodedata.name(letter)
     exceptions = {"NUMERO SIGN": "No", "LEFT-POINTING DOUBLE ANGLE QUOTATION MARK": "\"", "RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK": "\"", "DASH": "-"}
     for name_contains in exceptions:

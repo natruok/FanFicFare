@@ -25,7 +25,6 @@ from ..htmlcleanup import stripHTML
 from .. import exceptions as exceptions
 
 # py2 vs py3 transition
-from ..six import text_type as unicode
 
 from .base_adapter import BaseSiteAdapter,  makeDate
 
@@ -129,11 +128,11 @@ class ChosenTwoFanFicArchiveAdapter(BaseSiteAdapter):
         labels = soup.find_all('span',{'class':'label'})
         for labelspan in labels:
             val = labelspan.nextSibling
-            value = unicode('')
+            value = str('')
             while val and not 'label' in defaultGetattr(val,'class'):
                 # print("val:%s"%val)
                 if not isinstance(val,Comment):
-                    value += unicode(val)
+                    value += str(val)
                 val = val.nextSibling
             label = labelspan.string
             # print("label:%s\nvalue:%s"%(label,value))

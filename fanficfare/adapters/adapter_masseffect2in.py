@@ -24,7 +24,6 @@ from itertools import takewhile
 from ..htmlcleanup import removeEntities, stripHTML
 from .. import exceptions as exceptions
 # py2 vs py3 transition
-from ..six import text_type as unicode
 from ..six.moves import zip as izip
 
 from .base_adapter import BaseSiteAdapter, makeDate
@@ -202,7 +201,7 @@ class MassEffect2InAdapter(BaseSiteAdapter):
         self.story.setMetadata('status', 'In-Progress' if storyInProgress else 'Completed')
         self.story.setMetadata('datePublished', datePublished)
         self.story.setMetadata('dateUpdated', dateUpdated)
-        self.story.setMetadata('numWords', unicode(wordCount))
+        self.story.setMetadata('numWords', str(wordCount))
 
         # Site-specific metadata.
         self.story.setMetadata('language', self.SITE_LANGUAGE)

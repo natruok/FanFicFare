@@ -40,7 +40,7 @@ def pop():
     return u''
 
 def pop_end_tag():
-    return unicode(get_end_tag(pop()))
+    return str(get_end_tag(pop()))
 
 def spool_end():
     html = u''

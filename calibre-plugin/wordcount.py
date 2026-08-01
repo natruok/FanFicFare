@@ -15,7 +15,6 @@ logger = logging.getLogger(__name__)
 import re
 
 from calibre.ebooks.oeb.iterator import EbookIterator
-from fanficfare.six import text_type as unicode
 
 RE_HTML_BODY = re.compile(u'<body[^>]*>(.*)</body>', re.UNICODE | re.DOTALL | re.IGNORECASE)
 RE_STRIP_MARKUP = re.compile(u'<[^>]+>', re.UNICODE)
@@ -77,7 +76,7 @@ def _read_epub_contents(iterator, strip_html=False):
         with open(path, 'rb') as f:
             html = f.read().decode('utf-8', 'replace')
             if strip_html:
-                html = unicode(_extract_body_text(html)).strip()
+                html = str(_extract_body_text(html)).strip()
                 #print('FOUND HTML:', html)
         book_files.append(html)
     return ''.join(book_files)

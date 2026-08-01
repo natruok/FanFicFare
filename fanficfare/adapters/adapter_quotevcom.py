@@ -22,7 +22,6 @@ logger = logging.getLogger(__name__)
 
 from .. import exceptions
 # py2 vs py3 transition
-from ..six import text_type as unicode
 from ..six.moves.urllib import parse as urlparse
 
 from .base_adapter import BaseSiteAdapter
@@ -105,7 +104,7 @@ class QuotevComAdapter(BaseSiteAdapter):
             self.story.setMetadata('status', 'In-Progress')
 
         # pages,readers,reads
-        metahtml = unicode(metadiv).replace(u'\n',' ')
+        metahtml = str(metadiv).replace(u'\n',' ')
         # logger.debug(metahtml)
         for entry in self.getConfigList('extra_valid_entries'):
             # if entry in metahtml:

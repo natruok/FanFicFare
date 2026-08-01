@@ -25,7 +25,6 @@ from ..htmlcleanup import stripHTML
 from .. import exceptions as exceptions
 
 # py2 vs py3 transition
-from ..six import text_type as unicode
 
 from .base_adapter import BaseSiteAdapter,  makeDate
 
@@ -412,7 +411,7 @@ class BaseXenForo2ForumAdapter(BaseSiteAdapter):
 
     def get_cache_post(self,postid):
         ## saved using original 'post-99999' id for key.
-        postid=unicode(postid) # thank you, Py3.
+        postid=str(postid) # thank you, Py3.
         if self.getPathPrefix()+'posts/' in postid:
             ## allows chapter urls to be passed in directly.
             # assumed normalized to /posts/1234/
@@ -653,7 +652,7 @@ class BaseXenForo2ForumAdapter(BaseSiteAdapter):
                 lastlink = threadmark_pages[-1]['href']
                 m = re.match(r'^(?P<prefix>.*page=)(?P<lastpage>\d+)$',lastlink)
                 for j in range( 2, int(m.group('lastpage'))+1 ):
-                    pageurl = (self.getURLDomain() + m.group('prefix') + unicode(j))
+                    pageurl = (self.getURLDomain() + m.group('prefix') + str(j))
                     # logger.debug("pageurl: %s"%pageurl)
                     threadmarks.extend(self.fetch_threadmarks(pageurl,
                                                               tmcat_name,
@@ -683,7 +682,7 @@ class BaseXenForo2ForumAdapter(BaseSiteAdapter):
 
     def make_reader_url(self,tmcat_num,reader_page_num):
         # https://xf2test.sufficientvelocity.com/threads/mauling-snarks-worm.41471/reader/page-4?threadmark_category=4
-        return self.story.getMetadata('storyUrl')+'reader/page-'+unicode(reader_page_num)+'?threadmark_category='+tmcat_num
+        return self.story.getMetadata('storyUrl')+'reader/page-'+str(reader_page_num)+'?threadmark_category='+tmcat_num
 
     def get_quote_expand_tag(self,soup):
         return soup.find_all('div',{'class':re.compile(r'bbCodeBlock-(expand|shrink)Link')})
@@ -1088,7 +1087,7 @@ class BaseXenForo2ForumAdapter(BaseSiteAdapter):
             for img in soup.find_all('img',src=re.compile(r'(^(data:image|failedtoload)|(clear.png$))')):
                 # logger.debug("replace_failed_smilies_with_alt_text img: %s"%img)
                 if img.has_attr('class'):
-                    clses = unicode(img['class']) # stringify list.
+                    clses = str(img['class']) # stringify list.
                     if img.has_attr('alt') and ('mceSmilie' in clses or 'smilie--sprite' in clses):
                         ## Change the img to a span containing the alt
                         ## text, remove attrs.  This is a one-way change.
