@@ -21,8 +21,6 @@ except:
     QFontNormal = QFont.Normal
     QFontBold = QFont.Bold
 
-from fanficfare.six import string_types
-
 class IniHighlighter(QSyntaxHighlighter):
     '''
     QSyntaxHighlighter class for use with QTextEdit for highlighting
@@ -144,7 +142,7 @@ class HighlightingRule():
                   weight=QFontNormal,
                   style=Qt.SolidPattern,
                   blocknum=0):
-        if isinstance(pattern, string_types):
+        if isinstance(pattern, str):
             self.pattern = re.compile(pattern)
         else:
             self.pattern=pattern

@@ -16,7 +16,6 @@ from xml.dom.minidom import parseString
 
 # py2 vs py3 transition
 from .six import ensure_text
-from .six import string_types as basestring
 from io import BytesIO
 
 FONT_EXTS = ('ttf','otf','woff','woff2')
@@ -587,7 +586,7 @@ def reset_orig_chapters_epub(inputio,outfile):
 
     # only *actually* write if changed.
     if changed:
-        if isinstance(outfile,basestring):
+        if isinstance(outfile,str):
             with open(outfile,"wb") as outputio:
                 outputio.write(zipio.getvalue())
         else:

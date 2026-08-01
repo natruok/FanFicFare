@@ -29,7 +29,6 @@ logger = logging.getLogger(__name__)
 # py2 vs py3 transition
 from . import six
 from .six.moves.urllib.parse import (urlparse, urljoin)
-from .six import string_types as basestring
 from .six import ensure_binary, ensure_str
 
 import bs4
@@ -962,7 +961,7 @@ class Story(Requestable):
                         #         match,value,cond_match,condval,keyfound,found))
                     keyfound |= keyfndnow
                     if keyfndnow:
-                        found = isinstance(value,basestring) and match.is_match(value)
+                        found = isinstance(value,str) and match.is_match(value)
                     if found:
                         # print("match:%s %s\n\tkeyfndnow:%s\n\tfound:%s"%(
                         #         match,value,keyfndnow,found))
@@ -988,7 +987,7 @@ class Story(Requestable):
             # logger.debug("key:%s value:%s"%(key,value))
             # logger.debug("value class:%s"%value.__class__.__name__)
             if (metakeys == None or key in metakeys) \
-                    and isinstance(value,basestring) \
+                    and isinstance(value,str) \
                     and regexp.search(value):
                 # recursion on pattern, bail -- Compare by original text
                 # line because I saw an issue with duplicate lines in a

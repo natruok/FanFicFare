@@ -21,7 +21,6 @@ from zipfile import ZipFile, ZIP_STORED, ZIP_DEFLATED
 import re
 
 # py2 vs py3 transition
-from ..six import string_types as basestring
 from ..six import ensure_binary
 from io import BytesIO
 
@@ -761,7 +760,7 @@ div { margin: 0pt; padding: 0pt; }
                 chap['tocchapter']=removeEntities(chap['toctitle'])
                 # escape double quotes in all vals.
                 for k,v in chap.items():
-                    if isinstance(v,basestring): chap[k]=v.replace('"','&quot;')
+                    if isinstance(v,str): chap[k]=v.replace('"','&quot;')
                 fullhtml = CHAPTER_START.substitute(chap) + \
                     chap_data.strip() + \
                     CHAPTER_END.substitute(chap)

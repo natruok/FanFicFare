@@ -8,8 +8,6 @@ import re
 
 from PyQt5.Qt import (Qt, QSyntaxHighlighter, QTextCharFormat, QBrush)
 
-from fanficfare.six import string_types
-
 class BasicIniHighlighter(QSyntaxHighlighter):
     '''
     QSyntaxHighlighter class for use with QTextEdit for highlighting
@@ -49,7 +47,7 @@ class BasicIniHighlighter(QSyntaxHighlighter):
 
 class HighlightingRule():
     def __init__( self, pattern, color, style ):
-        if isinstance(pattern, string_types):
+        if isinstance(pattern, str):
             self.pattern = re.compile(pattern)
         else:
             self.pattern=pattern

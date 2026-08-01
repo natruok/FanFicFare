@@ -21,7 +21,6 @@ from datetime import datetime, timedelta
 from collections import defaultdict
 
 # py2 vs py3 transition
-from ..six import string_types as basestring
 from ..six.moves.urllib.parse import urlparse, parse_qs, urljoin
 
 import logging
@@ -625,7 +624,7 @@ try to download.</p>
 
         #print(u"[[[[[\n\n%s\n\n]]]]]]]]"%svalue) # works for either soup or string
         if self.getConfig('keep_summary_html'):
-            if isinstance(svalue,basestring):
+            if isinstance(svalue,str):
                 # bs4/html5lib add html, header and body tags, which
                 # we don't want.  utf8FromSoup will strip the body tags for us.
                 svalue = BeautifulSoup(svalue,"html5lib").body

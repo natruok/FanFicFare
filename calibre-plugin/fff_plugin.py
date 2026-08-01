@@ -5,7 +5,7 @@ __copyright__ = '2021, Jim Miller'
 __docformat__ = 'restructuredtext en'
 
 import fanficfare.six as six
-from fanficfare.six import ensure_text, string_types
+from fanficfare.six import ensure_text
 
 import logging
 logger = logging.getLogger(__name__)
@@ -1047,7 +1047,7 @@ class FanFicFarePlugin(InterfaceAction):
                                  merge=False, urlmapfile=None):
         # new question_cache each time we start prep'ing downloads.
         self.question_cache = {}
-        if isinstance(update_books, string_types):
+        if isinstance(update_books, str):
             url_list = split_text_to_urls(update_books)
             update_books = self.convert_urls_to_books(url_list)
 
@@ -1162,7 +1162,7 @@ class FanFicFarePlugin(InterfaceAction):
         '''Fetch metadata for stories from servers, launch BG job when done.'''
         # new question_cache each time we start prep'ing downloads.
         self.question_cache = {}
-        if isinstance(books, string_types):
+        if isinstance(books, str):
             url_list = split_text_to_urls(books)
             books = self.convert_urls_to_books(url_list)
 
