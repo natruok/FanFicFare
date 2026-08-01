@@ -36,7 +36,7 @@ show_download_options = 'fff:add new/update dialogs:show_download_options'
 from calibre.gui2.dialogs.confirm_delete import confirm
 from calibre.gui2.complete2 import EditWithComplete
 from fanficfare.exceptions import NotGoingToDownload
-from fanficfare.six import ensure_text
+from fanficfare.ensure import ensure_text
 
 # pulls in translation files for _() strings
 try:

@@ -12,7 +12,7 @@ import logging
 
 # py2 vs py3 transition
 from .six.moves.urllib.parse import unquote
-from .six import ensure_binary
+from .ensure import ensure_binary
 
 # import bs4
 # BeautifulSoup = bs4.BeautifulSoup

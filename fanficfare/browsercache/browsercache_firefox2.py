@@ -27,7 +27,7 @@ import datetime
 import time
 
 from . import BaseBrowserCache
-from ..six import ensure_text
+from ..ensure import ensure_text
 from ..exceptions import BrowserCacheException
 from ..dateutils import makeDate, utcnow
 from .share_open import share_open

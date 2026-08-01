@@ -31,7 +31,7 @@ from .fetcher_requests import RequestsFetcher
 
 from ..six.moves.http_cookiejar import Cookie
 from ..six.moves.urllib.parse import urlencode
-from ..six import ensure_binary, ensure_text
+from ..ensure import ensure_binary, ensure_text
 
 FLARESOLVERR_SESSION="FanFicFareSession"
 ## no convinced this is a good idea yet.

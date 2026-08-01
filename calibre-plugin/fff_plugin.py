@@ -5,7 +5,7 @@ __copyright__ = '2021, Jim Miller'
 __docformat__ = 'restructuredtext en'
 
 import fanficfare.six as six
-from fanficfare.six import ensure_text
+from fanficfare.ensure import ensure_text
 
 import logging
 logger = logging.getLogger(__name__)

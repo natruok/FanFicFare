@@ -19,7 +19,7 @@ import threading
 import logging
 logger = logging.getLogger(__name__)
 
-from ..six import ensure_text
+from ..ensure import ensure_text
 
 from .base_fetcher import FetcherResponse
 from .decorators import FetcherDecorator

@@ -2,7 +2,7 @@
 # Code taken from http://python.su/forum/viewtopic.php?pid=66946
 
 # py2 vs py3 transition
-from .six import ensure_text
+from .ensure import ensure_text
 
 import unicodedata
 def is_syllable(letter):

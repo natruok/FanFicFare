@@ -29,7 +29,7 @@ logger = logging.getLogger(__name__)
 # py2 vs py3 transition
 from . import six
 from .six.moves.urllib.parse import (urlparse, urljoin)
-from .six import ensure_binary, ensure_str
+from .ensure import ensure_binary, ensure_str
 
 import bs4
 

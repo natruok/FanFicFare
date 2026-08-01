@@ -21,7 +21,7 @@ from zipfile import ZipFile, ZIP_STORED, ZIP_DEFLATED
 import re
 
 # py2 vs py3 transition
-from ..six import ensure_binary
+from ..ensure import ensure_binary
 from io import BytesIO
 
 ## XML isn't as forgiving as HTML, so rather than generate as strings,

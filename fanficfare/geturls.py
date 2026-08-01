@@ -22,7 +22,7 @@ import re
 
 from .six.moves.urllib.request import urlopen
 from .six.moves.urllib.parse import urljoin
-from .six import ensure_str
+from .ensure import ensure_str
 
 import logging
 logger = logging.getLogger(__name__)

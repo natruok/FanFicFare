@@ -15,7 +15,7 @@ from zipfile import ZipFile, ZIP_STORED, ZIP_DEFLATED
 from xml.dom.minidom import parseString
 
 # py2 vs py3 transition
-from .six import ensure_text
+from .ensure import ensure_text
 from io import BytesIO
 
 FONT_EXTS = ('ttf','otf','woff','woff2')

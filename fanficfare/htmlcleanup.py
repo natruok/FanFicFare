@@ -22,7 +22,7 @@ import re
 
 # py2 vs py3 transition
 from .six.moves.urllib.parse import unquote
-from .six import ensure_text
+from .ensure import ensure_text
 from .six import unichr
 from .six import PY2
 if PY2:

@@ -125,7 +125,7 @@ class FanFicFareBase(InterfaceActionBase):
             from calibre.library import db
             from fanficfare.cli import main as fff_main
             from calibre_plugins.fanficfare_plugin.prefs import PrefsFacade
-            from fanficfare.six import ensure_text
+            from fanficfare.ensure import ensure_text
             from optparse import OptionParser
 
             parser = OptionParser('%prog --run-plugin '+self.name+' -- [options] <storyurl>')

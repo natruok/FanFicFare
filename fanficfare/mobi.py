@@ -10,7 +10,7 @@ import random
 import logging
 
 # py2 vs py3 transition
-from .six import ensure_binary
+from .ensure import ensure_binary
 from io import BytesIO
 
 logger = logging.getLogger(__name__)
