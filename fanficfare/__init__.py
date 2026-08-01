@@ -14,7 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-from __future__ import absolute_import
 
 try: # just a way to switch between CLI and PI
     from calibre.constants import DEBUG

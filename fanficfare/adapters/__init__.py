@@ -15,7 +15,6 @@
 # limitations under the License.
 #
 
-from __future__ import absolute_import
 import os, re, sys, types
 from contextlib import contextmanager
 import logging

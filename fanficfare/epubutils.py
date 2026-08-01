@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import
 
 __license__   = 'GPL v3'
 __copyright__ = '2020, Jim Miller'

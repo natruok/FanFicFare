@@ -15,7 +15,6 @@
 # limitations under the License.
 #
 
-from __future__ import absolute_import
 
 ## Cache parsing code lifted from:
 ## https://github.com/JamesHabben/FirefoxCache2

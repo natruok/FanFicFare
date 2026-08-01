@@ -31,7 +31,6 @@ Stores the data fetched in the cache.
 Parse the HTTP header if asked.
 """
 
-from __future__ import absolute_import
 import re
 import shutil
 import struct

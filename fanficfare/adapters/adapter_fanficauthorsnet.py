@@ -18,8 +18,6 @@
 ###   Adapted by GComyn - November 26, 2016
 ###
 ####################################################################################################
-from __future__ import absolute_import
-from __future__ import unicode_literals
 import logging
 logger = logging.getLogger(__name__)
 import re

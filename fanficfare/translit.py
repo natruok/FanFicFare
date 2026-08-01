@@ -1,6 +1,5 @@
 #-*-coding:utf-8-*-
 # Code taken from http://python.su/forum/viewtopic.php?pid=66946
-from __future__ import absolute_import
 
 # py2 vs py3 transition
 from .six import text_type as unicode

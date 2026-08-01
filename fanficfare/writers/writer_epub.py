@@ -15,7 +15,6 @@
 # limitations under the License.
 #
 
-from __future__ import absolute_import
 import logging
 import string
 from zipfile import ZipFile, ZIP_STORED, ZIP_DEFLATED

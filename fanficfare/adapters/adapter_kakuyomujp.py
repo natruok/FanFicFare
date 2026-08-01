@@ -15,7 +15,6 @@
 # limitations under the License.
 #
 
-from __future__ import absolute_import
 import logging, time
 logger = logging.getLogger(__name__)
 import re, json

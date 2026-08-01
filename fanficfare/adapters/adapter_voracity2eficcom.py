@@ -1,5 +1,4 @@
 # Software: eFiction
-from __future__ import absolute_import
 import re
 
 from bs4.element import Tag

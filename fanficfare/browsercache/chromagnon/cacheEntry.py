@@ -32,7 +32,6 @@ See http://www.chromium.org/developers/design-documents/network-stack/disk-cache
 for design details
 """
 
-from __future__ import absolute_import
 import datetime
 import struct
 import os
