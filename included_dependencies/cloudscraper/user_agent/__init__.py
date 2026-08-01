@@ -7,6 +7,7 @@ import ssl
 
 from collections import OrderedDict
 
+from requests.utils import extract_zipped_paths
 # ------------------------------------------------------------------------------- #
 
 
@@ -71,7 +72,7 @@ class User_Agent():
             sys.tracebacklimit = 0
             raise RuntimeError("Sorry you can't have mobile and desktop disabled at the same time.")
 
-        with open(os.path.join(os.path.dirname(__file__), 'browsers.json'), 'r') as fp:
+        with open(extract_zipped_paths(os.path.join(os.path.dirname(__file__), 'browsers.json')), 'r') as fp:
             user_agents = json.load(
                 fp,
                 object_pairs_hook=OrderedDict
