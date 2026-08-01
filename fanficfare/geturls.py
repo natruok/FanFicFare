@@ -20,8 +20,8 @@ import email
 import imaplib
 import re
 
-from .six.moves.urllib.request import urlopen
-from .six.moves.urllib.parse import urljoin
+from urllib.request import urlopen
+from urllib.parse import urljoin
 from .ensure import ensure_str
 
 import logging
@@ -272,7 +272,7 @@ def get_urls_from_mime(mime_data):
             # logger.debug("filename:%s"%f)
             if f.endswith(".eml"):
                 # logger.debug("calling urlopen(%s)"%f)
-                # continue using .six.moves.urllib.request.urlopen,
+                # continue using urlopen,
                 # should only ever be file://
                 fhandle = urlopen(f)
                 if hasattr(email,'message_from_binary_file'):

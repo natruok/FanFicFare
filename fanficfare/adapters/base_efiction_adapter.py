@@ -25,7 +25,7 @@ import bs4 as bs
 from ..htmlcleanup import stripHTML
 from .. import exceptions as exceptions
 
-# py2 vs py3 transition
+
 
 from .base_adapter import BaseSiteAdapter, makeDate
 

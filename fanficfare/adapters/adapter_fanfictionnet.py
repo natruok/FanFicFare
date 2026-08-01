@@ -20,8 +20,8 @@ import logging
 logger = logging.getLogger(__name__)
 import re
 
-# py2 vs py3 transition
-from ..six.moves.urllib.parse import urlparse
+
+from urllib.parse import urlparse
 
 from .. import exceptions as exceptions
 from ..htmlcleanup import stripHTML

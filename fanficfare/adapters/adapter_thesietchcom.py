@@ -18,7 +18,7 @@
 import logging
 logger = logging.getLogger(__name__)
 
-# py2 vs py3 transition
+
 
 from .base_xenforo2forum_adapter import BaseXenForo2ForumAdapter
 

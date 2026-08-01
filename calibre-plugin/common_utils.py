@@ -19,8 +19,6 @@ from calibre.gui2.keyboard import ShortcutConfig
 from calibre.utils.config import config_dir
 from calibre.utils.date import now, format_date, qt_to_dt, UNDEFINED_DATE
 
-import fanficfare.six as six
-
 # Global definition of our plugin name. Used for common functions that require this.
 plugin_name = None
 # Global definition of our plugin resources. Used to share between the xxxAction and xxxBase
@@ -365,7 +363,7 @@ class PrefsViewerDialog(SizePersistedDialog):
     def _populate_settings(self):
         self.keys_list.clear()
         ns_prefix = self._get_ns_prefix()
-        keys = sorted([k[len(ns_prefix):] for k in six.iterkeys(self.db.prefs)
+        keys = sorted([k[len(ns_prefix):] for k in iter(self.db.prefs.keys())
                        if k.startswith(ns_prefix)])
         for key in keys:
             self.keys_list.addItem(key)
@@ -428,7 +426,7 @@ class PrefsViewerDialog(SizePersistedDialog):
         if not confirm(message, self.namespace+'_clear_settings', self):
             return
         ns_prefix = self._get_ns_prefix()
-        keys = [k for k in six.iterkeys(self.db.prefs) if k.startswith(ns_prefix)]
+        keys = [k for k in iter(self.db.prefs.keys()) if k.startswith(ns_prefix)]
         for k in keys:
             del self.db.prefs[k]
         self._populate_settings()

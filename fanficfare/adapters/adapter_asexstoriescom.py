@@ -22,8 +22,8 @@ import os
 from bs4.element import Comment
 from .. import exceptions as exceptions
 
-# py2 vs py3 transition
-from ..six.moves.urllib import parse as urlparse
+
+from urllib import parse as urlparse
 
 from .base_adapter import BaseSiteAdapter, makeDate
 

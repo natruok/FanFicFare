@@ -39,7 +39,6 @@ import re
 
 from . import cacheAddress
 from . import cacheData
-from six.moves import range
 
 from ..share_open import share_open
 

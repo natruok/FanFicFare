@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 import threading
 import traceback
 import time
-from ..six.moves.urllib.parse import urlparse
+from urllib.parse import urlparse
 
 from .. import exceptions
 

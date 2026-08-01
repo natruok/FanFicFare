@@ -20,7 +20,6 @@ from PyQt5.Qt import (QWidget, QVBoxLayout, QHBoxLayout, QGridLayout, QLabel,
 from calibre.gui2 import dynamic, info_dialog
 from calibre.gui2.complete2 import EditWithComplete
 from calibre.gui2.dialogs.confirm_delete import confirm
-import fanficfare.six as six
 
 try:
     from calibre.ebooks.covers import generate_cover as cal_generate_cover
@@ -337,7 +336,7 @@ class ConfigWidget(QWidget):
             prefs['gcnewonly'] = self.calibrecover_tab.gcnewonly.isChecked()
             prefs['covernewonly'] = self.calibrecover_tab.covernewonly.isChecked()
             gc_site_settings = {}
-            for (site,combo) in six.iteritems(self.calibrecover_tab.gc_dropdowns):
+            for (site,combo) in iter(self.calibrecover_tab.gc_dropdowns.items()):
                 val = str(combo.itemData(combo.currentIndex()))
                 if val != 'none':
                     gc_site_settings[site] = val
@@ -365,7 +364,7 @@ class ConfigWidget(QWidget):
 
             # Standard Columns tab
             colsnewonly = {}
-            for (col,checkbox) in six.iteritems(self.std_columns_tab.stdcol_newonlycheck):
+            for (col,checkbox) in iter(self.std_columns_tab.stdcol_newonlycheck.items()):
                 colsnewonly[col] = checkbox.isChecked()
             prefs['std_cols_newonly'] = colsnewonly
 
@@ -394,7 +393,7 @@ class ConfigWidget(QWidget):
 
             # cust cols tab
             colsmap = {}
-            for (col,combo) in six.iteritems(self.cust_columns_tab.custcol_dropdowns):
+            for (col,combo) in iter(self.cust_columns_tab.custcol_dropdowns.items()):
                 val = str(combo.itemData(combo.currentIndex()))
                 if val != 'none':
                     colsmap[col] = val
@@ -402,7 +401,7 @@ class ConfigWidget(QWidget):
             prefs['custom_cols'] = colsmap
 
             colsnewonly = {}
-            for (col,checkbox) in six.iteritems(self.cust_columns_tab.custcol_newonlycheck):
+            for (col,checkbox) in iter(self.cust_columns_tab.custcol_newonlycheck.items()):
                 colsnewonly[col] = checkbox.isChecked()
             prefs['custom_cols_newonly'] = colsnewonly
 
@@ -1005,11 +1004,11 @@ class PersonalIniTab(QWidget):
 
     def show_showcalcols(self):
         lines=[]#[('calibre_std_user_categories',_('User Categories'))]
-        for k,f in six.iteritems(field_metadata):
+        for k,f in iter(field_metadata.items()):
             if f['name'] and k not in STD_COLS_SKIP: # only if it has a human readable name.
                 lines.append(('calibre_std_'+k,f['name']))
 
-        for k, column in six.iteritems(self.plugin_action.gui.library_view.model().custom_columns):
+        for k, column in iter(self.plugin_action.gui.library_view.model().custom_columns.items()):
             if k != prefs['savemetacol']:
                 # custom always have name.
                 lines.append(('calibre_cust_'+k[1:],column['name']))
@@ -1685,7 +1684,7 @@ class StandardColumnsTab(QWidget):
         self.stdcol_newonlycheck = {}
 
         rows=[]
-        for key, column in six.iteritems(columns):
+        for key, column in iter(columns.items()):
             row = []
             rows.append(row)
             label = QLabel(column)

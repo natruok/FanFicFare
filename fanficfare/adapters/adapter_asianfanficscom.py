@@ -6,9 +6,9 @@ import re
 import json
 from ..htmlcleanup import stripHTML
 from .. import exceptions as exceptions
-from ..six.moves.urllib import parse as urlparse
+from urllib import parse as urlparse
 
-# py2 vs py3 transition
+
 
 from .base_adapter import BaseSiteAdapter,  makeDate
 

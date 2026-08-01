@@ -21,9 +21,8 @@ import re
 from ..htmlcleanup import stripHTML
 from .. import exceptions as exceptions
 
-# py2 vs py3 transition
-from ..six.moves import http_cookiejar as cl
 
+from http import cookiejar as cl
 
 from .base_adapter import BaseSiteAdapter,  makeDate
 

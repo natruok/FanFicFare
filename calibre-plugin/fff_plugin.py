@@ -4,7 +4,6 @@ __license__   = 'GPL v3'
 __copyright__ = '2021, Jim Miller'
 __docformat__ = 'restructuredtext en'
 
-import fanficfare.six as six
 from fanficfare.ensure import ensure_text
 
 import logging
@@ -1713,7 +1712,7 @@ class FanFicFarePlugin(InterfaceAction):
                         #logger.debug("%s(%s): %s"%(label,key,value))
 
                 # custom columns
-                for k, column in six.iteritems(self.gui.library_view.model().custom_columns):
+                for k, column in iter(self.gui.library_view.model().custom_columns.items()):
                     if k != prefs['savemetacol']:
                         key='calibre_cust_'+k[1:]
                         label=column['name']
@@ -2450,7 +2449,7 @@ class FanFicFarePlugin(InterfaceAction):
         # implement 'newonly' flags here by setting to the current
         # value again.
         if not book['added']:
-            for (col,newonly) in six.iteritems(prefs['std_cols_newonly']):
+            for (col,newonly) in iter(prefs['std_cols_newonly'].items()):
                 if newonly:
                     if col == "identifiers":
                         mi.set_identifiers(oldmi.get_identifiers())
@@ -2492,7 +2491,7 @@ class FanFicFarePlugin(InterfaceAction):
             self.set_custom(db, book_id, 'lastcheckedcol', book['timestamp'], label=label, commit=True)
 
         #print("prefs['custom_cols'] %s"%prefs['custom_cols'])
-        for col, meta in six.iteritems(prefs['custom_cols']):
+        for col, meta in iter(prefs['custom_cols'].items()):
             #print("setting %s to %s"%(col,meta))
             if col not in custom_columns:
                 logger.debug("%s not an existing column, skipping."%col)
@@ -2756,7 +2755,7 @@ class FanFicFarePlugin(InterfaceAction):
                 #print("cover_path:%s"%cover_path)
                 opts = ALL_OPTS.copy()
                 opts.update(data)
-                O = namedtuple('Options', ' '.join(six.iterkeys(ALL_OPTS)))
+                O = namedtuple('Options', ' '.join(iter(ALL_OPTS.keys())))
                 opts = O(**opts)
 
                 log = Log(level=Log.DEBUG)
@@ -3112,7 +3111,7 @@ The previously downloaded book is still in the anthology, but FFF doesn't have t
 
             # copy list all_metadata
             if 'all_metadata' in b:
-                for (k,v) in six.iteritems(b['all_metadata']):
+                for (k,v) in iter(b['all_metadata'].items()):
                     #print("merge_meta_books v:%s k:%s"%(v,k))
                     if k in ('numChapters','numWords'):
                         if k in b['all_metadata'] and b['all_metadata'][k]:

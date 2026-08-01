@@ -44,7 +44,7 @@ from fanficfare.configurable import Configuration
 from fanficfare.epubutils import (
     get_dcsource_chaptercount, get_update_data, reset_orig_chapters_epub)
 from fanficfare.geturls import get_urls_from_page, get_urls_from_imap
-from fanficfare.six.moves import configparser
+import configparser
 
 from fanficfare.fff_profile import do_cprofile
 

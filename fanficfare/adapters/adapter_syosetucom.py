@@ -24,9 +24,9 @@ from base64 import urlsafe_b64encode as b64encode
 
 from .. import exceptions as exceptions
 
-# py2 vs py3 transition
-from ..six.moves import http_cookiejar as cl
-from ..six.moves.urllib.parse import urlparse
+
+from http import cookiejar as cl
+from urllib.parse import urlparse
 
 from .base_adapter import BaseSiteAdapter, makeDate
 

@@ -18,7 +18,7 @@
 import logging
 from bs4.element import Comment
 
-# py2 vs py3 transition
+
 
 from .base_adapter import BaseSiteAdapter, makeDate
 

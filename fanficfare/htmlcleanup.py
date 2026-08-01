@@ -21,14 +21,9 @@ logger = logging.getLogger(__name__)
 import re
 
 # py2 vs py3 transition
-from .six.moves.urllib.parse import unquote
+from urllib.parse import unquote
 from .ensure import ensure_text
-from .six import unichr
-from .six import PY2
-if PY2:
-    from cgi import escape as htmlescape
-else: # PY3
-    from html import escape as htmlescape
+from html import escape as htmlescape
 
 def _unirepl(match):
     "Return the unicode string for a decimal number"
@@ -40,7 +35,7 @@ def _unirepl(match):
         s = match.group(1)
     try:
         value = int(s, radix)
-        retval = "%s%s"%(unichr(value),match.group(2))
+        retval = "%s%s"%(chr(value),match.group(2))
     except:
         # This way, at least if there's more of entities out there
         # that fail, it doesn't blow the entire download.

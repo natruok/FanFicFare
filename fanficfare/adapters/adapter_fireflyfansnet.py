@@ -20,7 +20,7 @@
 ''' This adapter will download the stories from the www.fireflyfans.net forum  pages '''
 import logging
 import re
-# py2 vs py3 transition
+
 
 from .base_adapter import BaseSiteAdapter, makeDate
 

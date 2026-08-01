@@ -141,9 +141,8 @@ class RequestsFetcher(Fetcher):
                                    resp_json)
         except RequestsHTTPError as e:
             ## not RequestsHTTPError(requests.exceptions.HTTPError) or
-            ## .six.moves.urllib.error import HTTPError because we
-            ## want code *and* content for that one trekfanfiction
-            ## catch.
+            ## urllib.error import HTTPError because we want code
+            ## *and* content for that one trekfanfiction catch.
             raise exceptions.HTTPErrorFFF(
                 url,
                 e.response.status_code,

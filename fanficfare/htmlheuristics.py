@@ -20,9 +20,6 @@ logger = logging.getLogger(__name__)
 import re
 import bs4 as bs
 
-# py2 vs py3 transition
-from .six.moves import range
-
 from . import HtmlTagStack as stack
 
 def logdebug(s):

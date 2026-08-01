@@ -6,9 +6,6 @@ from bs4 import BeautifulSoup
 from ..htmlcleanup import stripHTML
 from .. import exceptions as exceptions
 
-# py2 vs py3 transition
-from ..six import PY3
-
 from .base_adapter import BaseSiteAdapter,  makeDate
 
 def getClass():
@@ -31,15 +28,7 @@ class SpiritFanfictionComAdapter(BaseSiteAdapter):
 
         # The date format will vary from site to site.
         # http://docs.python.org/library/datetime.html#strftime-strptime-behavior
-        if PY3:
-            self.dateformat = "%Y-%m-%dT%H:%M:%S%z"
-            self.datelength = len("2015-04-15T22:16:15-03:00")
-        else:
-            ## python 2 had really poor timezone support and doesn't
-            ## recognize %z.  This is a somewhat cheesy way to ignore
-            ## the -/+dddd timezone when under py2.
-            self.dateformat = "%Y-%m-%dT%H:%M:%S"
-            self.datelength = len("2015-04-15T22:16:15")
+        self.dateformat = "%Y-%m-%dT%H:%M:%S%z"
 
         self.chapter_photoUrl = {}
 
@@ -160,7 +149,7 @@ class SpiritFanfictionComAdapter(BaseSiteAdapter):
 
                 # Datetime
                 date = a.find_next('time')['datetime']
-                chapterDate = makeDate(date[:self.datelength], self.dateformat).date()
+                chapterDate = makeDate(date, self.dateformat).date()
 
                 chapter_title = stripHTML(a.find('strong'))
 
@@ -214,7 +203,7 @@ class SpiritFanfictionComAdapter(BaseSiteAdapter):
                     if element.contents[0].name == 'strong':
                         self.story.addToList(attribute, stripHTML(element.contents[0]))
                 elif element.name == 'time':
-                    self.story.setMetadata(attribute, makeDate(element['datetime'][:self.datelength], self.dateformat))
+                    self.story.setMetadata(attribute, makeDate(element['datetime'], self.dateformat))
             return next_index
 
         # Informações Gerais

@@ -27,7 +27,7 @@ This will scrape the chapter text and metadata from stories on the site trekfanf
 '''
 import logging
 import re
-# py2 vs py3 transition
+
 
 from .base_adapter import BaseSiteAdapter, makeDate
 

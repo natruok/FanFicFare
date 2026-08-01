@@ -19,7 +19,7 @@ import logging
 logger = logging.getLogger(__name__)
 import re
 
-# py2 vs py3 transition
+
 
 ## They're from the same people and pretty much identical.
 from .adapter_fanfictionnet import FanFictionNetSiteAdapter

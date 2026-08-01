@@ -29,8 +29,8 @@ from .log import make_log
 from .base_fetcher import FetcherResponse
 from .fetcher_requests import RequestsFetcher
 
-from ..six.moves.http_cookiejar import Cookie
-from ..six.moves.urllib.parse import urlencode
+from http.cookiejar import Cookie
+from urllib.parse import urlencode
 from ..ensure import ensure_binary, ensure_text
 
 FLARESOLVERR_SESSION="FanFicFareSession"

@@ -11,7 +11,7 @@ import re
 import logging
 
 # py2 vs py3 transition
-from .six.moves.urllib.parse import unquote
+from urllib.parse import unquote
 from .ensure import ensure_binary
 
 # import bs4

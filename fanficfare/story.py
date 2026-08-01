@@ -26,9 +26,7 @@ import uuid
 import logging
 logger = logging.getLogger(__name__)
 
-# py2 vs py3 transition
-from . import six
-from .six.moves.urllib.parse import (urlparse, urljoin)
+from urllib.parse import (urlparse, urljoin)
 from .ensure import ensure_binary, ensure_str
 
 import bs4
@@ -126,7 +124,7 @@ except:
     # No calibre routines, try for Pillow for CLI.
     try:
         from PIL import Image
-        from .six import BytesIO
+        from io import BytesIO
         convtype = {'jpg':'JPEG', 'png':'PNG'}
 
         def get_image_size(data):
@@ -206,7 +204,7 @@ def no_convert_image(url,data):
         if ext not in imagetypes:
             try:
                 from PIL import Image
-                from .six import BytesIO
+                from io import BytesIO
                 ext = Image.open(BytesIO(data)).format.lower()
                 logger.info("no_convert_image url:%s - from bits got '%s'" % (url, ext))
             except (IOError, TypeError):
@@ -1046,7 +1044,7 @@ class Story(Requestable):
     # for saving an html-ified copy of metadata.
     def dump_html_metadata(self):
         lines=[]
-        for k,v in sorted(six.iteritems(self.metadata)):
+        for k,v in sorted(iter(self.metadata.items())):
             #logger.debug("k:%s v:%s"%(k,v))
             classes=['metadata']
             if isinstance(v, (datetime.date, datetime.datetime, datetime.time)):

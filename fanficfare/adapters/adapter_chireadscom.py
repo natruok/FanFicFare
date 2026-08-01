@@ -18,7 +18,7 @@
 
 import logging
 import re
-# py2 vs py3 transition
+
 
 from .base_adapter import BaseSiteAdapter, makeDate
 from fanficfare.htmlcleanup import stripHTML

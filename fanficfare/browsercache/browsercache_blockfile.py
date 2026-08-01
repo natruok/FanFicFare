@@ -27,7 +27,6 @@ from .chromagnon.cacheBlock import CacheBlock
 from .chromagnon.cacheData import CacheData
 from .chromagnon.cacheEntry import CacheEntry
 from .chromagnon.cacheParse import parse
-from ..six.moves import range
 from ..ensure import ensure_text
 
 from .base_chromium import BaseChromiumCache

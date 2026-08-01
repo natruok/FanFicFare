@@ -15,8 +15,9 @@ from fanficfare import adapters
 from fanficfare.configurable import Configuration
 from calibre_plugins.fanficfare_plugin.prefs import prefs
 from fanficfare.ensure import ensure_text
-from fanficfare.six.moves import configparser
-from fanficfare.six.moves import collections_abc
+
+import configparser
+from collections.abc import MutableSet
 
 def get_fff_personalini():
     return prefs['personal.ini']
@@ -51,8 +52,7 @@ def test_config(initext):
 
     return errors
 
-
-class OrderedSet(collections_abc.MutableSet):
+class OrderedSet(MutableSet):
 
     def __init__(self, iterable=None):
         self.end = end = []

@@ -32,7 +32,6 @@ See http://www.chromium.org/developers/design-documents/network-stack/disk-cache
 for design details
 """
 import struct
-from six.moves import range
 
 from ..share_open import share_open
 

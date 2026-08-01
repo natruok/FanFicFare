@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 
 from .. import exceptions
 
-# py2 vs py3 transition
+
 from ..ensure import ensure_text
 
 from .base_adapter import BaseSiteAdapter,  makeDate

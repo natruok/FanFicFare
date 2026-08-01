@@ -22,7 +22,7 @@ import re
 import zipfile
 
 from bs4 import BeautifulSoup
-# py2 vs py3 transition
+
 
 from .base_adapter import BaseSiteAdapter, makeDate
 from fanficfare.htmlcleanup import stripHTML

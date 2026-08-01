@@ -20,8 +20,8 @@ import os
 from datetime import datetime, timedelta
 from collections import defaultdict
 
-# py2 vs py3 transition
-from ..six.moves.urllib.parse import urlparse, parse_qs, urljoin
+
+from urllib.parse import urlparse, parse_qs, urljoin
 
 import logging
 from functools import partial
