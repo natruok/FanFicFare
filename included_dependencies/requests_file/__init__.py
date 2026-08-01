@@ -1,37 +1,30 @@
+from io import BytesIO
 from requests.adapters import BaseAdapter
-from requests.compat import urlparse, unquote
-from requests import Response, codes
+from requests import PreparedRequest, Response, codes
+from typing import Any
+from urllib.parse import urlparse, unquote
 import errno
 import os
 import stat
 import locale
 import io
 
-from six import BytesIO
-
 
 class FileAdapter(BaseAdapter):
-    def __init__(self, set_content_length=True):
+    def __init__(self, set_content_length: bool = True) -> None:
         super(FileAdapter, self).__init__()
         self._set_content_length = set_content_length
 
-    def send(self, request, **kwargs):
-        """ Wraps a file, described in request, in a Response object.
+    def send(self, request: PreparedRequest, *args: Any, **kwargs: Any) -> Response:
+        """Wraps a file, described in request, in a Response object.
 
-            :param request: The PreparedRequest` being "sent".
-            :returns: a Response object containing the file
+        :param request: The PreparedRequest` being "sent".
+        :returns: a Response object containing the file
         """
 
         # Check that the method makes sense. Only support GET
         if request.method not in ("GET", "HEAD"):
             raise ValueError("Invalid request method %s" % request.method)
-
-        # Parse the URL
-        url_parts = urlparse(request.url)
-
-        # Reject URLs with a hostname component
-        if url_parts.netloc and url_parts.netloc != "localhost":
-            raise ValueError("file: URLs with hostname components are not permitted")
 
         resp = Response()
 
@@ -39,6 +32,22 @@ class FileAdapter(BaseAdapter):
         # Use urllib's unquote to translate percent escapes into whatever
         # they actually need to be
         try:
+            # Reject None URLs the same as a missing file
+            if request.url is None:
+                raise IOError(errno.ENOENT, os.strerror(errno.ENOENT), "None")
+
+            # Parse the URL
+            url_parts = urlparse(request.url)
+
+            # Reject URLs with a hostname component
+            if url_parts.netloc and url_parts.netloc != "localhost":
+                raise ValueError("file: URLs with hostname components are not permitted")
+
+            resp.request = request
+
+            if request.url is not None:
+                resp.url = request.url
+
             # Split the path on / (the URL directory separator) and decode any
             # % escapes in the parts
             path_parts = [unquote(p) for p in url_parts.path.split("/")]
@@ -75,7 +84,7 @@ class FileAdapter(BaseAdapter):
 
             # Check if the drive assumptions above were correct. If path_drive
             # is set, and os.path.splitdrive does not return a drive, it wasn't
-            # reall a drive. Put the path together again treating path_drive
+            # really a drive. Put the path together again treating path_drive
             # as a normal path component.
             if path_drive and not os.path.splitdrive(path):
                 path = os.sep + os.path.join(path_drive, *path_parts)
@@ -97,21 +106,21 @@ class FileAdapter(BaseAdapter):
             # representation of the exception into a byte stream
             resp_str = str(e).encode(locale.getpreferredencoding(False))
             resp.raw = BytesIO(resp_str)
+            resp.reason = str(e)
             if self._set_content_length:
-                resp.headers["Content-Length"] = len(resp_str)
+                resp.headers["Content-Length"] = str(len(resp_str))
 
             # Add release_conn to the BytesIO object
             resp.raw.release_conn = resp.raw.close
         else:
             resp.status_code = codes.ok
-            resp.url = request.url
 
             # If it's a regular file, set the Content-Length
             resp_stat = os.fstat(resp.raw.fileno())
             if stat.S_ISREG(resp_stat.st_mode) and self._set_content_length:
-                resp.headers["Content-Length"] = resp_stat.st_size
+                resp.headers["Content-Length"] = str(resp_stat.st_size)
 
         return resp
 
-    def close(self):
+    def close(self) -> None:
         pass
