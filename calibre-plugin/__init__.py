@@ -4,21 +4,21 @@ __license__   = 'GPL v3'
 __copyright__ = '2019, Jim Miller'
 __docformat__ = 'restructuredtext en'
 
-import sys, os
-if sys.version_info >= (2, 7):
-    import logging
-    logger = logging.getLogger(__name__)
-    loghandler=logging.StreamHandler()
-    loghandler.setFormatter(logging.Formatter("FFF: %(levelname)s: %(asctime)s: %(filename)s(%(lineno)d): %(message)s"))
-    logger.addHandler(loghandler)
+import os
 
-    from calibre.constants import DEBUG
-    if os.environ.get('CALIBRE_WORKER', None) is not None or DEBUG:
-        loghandler.setLevel(logging.DEBUG)
-        logger.setLevel(logging.DEBUG)
-    else:
-        loghandler.setLevel(logging.CRITICAL)
-        logger.setLevel(logging.CRITICAL)
+import logging
+logger = logging.getLogger(__name__)
+loghandler=logging.StreamHandler()
+loghandler.setFormatter(logging.Formatter("FFF: %(levelname)s: %(asctime)s: %(filename)s(%(lineno)d): %(message)s"))
+logger.addHandler(loghandler)
+
+from calibre.constants import DEBUG
+if os.environ.get('CALIBRE_WORKER', None) is not None or DEBUG:
+    loghandler.setLevel(logging.DEBUG)
+    logger.setLevel(logging.DEBUG)
+else:
+    loghandler.setLevel(logging.CRITICAL)
+    logger.setLevel(logging.CRITICAL)
 
 # pulls in translation files for _() strings
 try:

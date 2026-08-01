@@ -31,12 +31,11 @@ os.environ['CURRENT_VERSION_ID']=version
 global_cache = 'global_cache'
 global_cookies = 'global_cookies'
 
-if sys.version_info >= (2, 7):
-    # suppresses default logger.  Logging is setup in fanficfare/__init__.py so it works in calibre, too.
-    rootlogger = logging.getLogger()
-    loghandler = logging.NullHandler()
-    loghandler.setFormatter(logging.Formatter('(=====)(levelname)s:%(message)s'))
-    rootlogger.addHandler(loghandler)
+# suppresses default logger.  Logging is setup in fanficfare/__init__.py so it works in calibre, too.
+rootlogger = logging.getLogger()
+loghandler = logging.NullHandler()
+loghandler.setFormatter(logging.Formatter('(=====)(levelname)s:%(message)s'))
+rootlogger.addHandler(loghandler)
 
 logger = logging.getLogger('fanficfare')
 

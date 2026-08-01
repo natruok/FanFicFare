@@ -15,7 +15,6 @@
 # limitations under the License.
 #
 
-import sys
 import threading
 import logging
 logger = logging.getLogger(__name__)
@@ -27,16 +26,8 @@ from .decorators import FetcherDecorator
 from .log import make_log
 
 import pickle
-if sys.version_info < (2, 7):
-    sys.exit('This program requires Python 2.7 or newer.')
-elif sys.version_info < (3, 0):
-    reload(sys)  # Reload restores 'hidden' setdefaultencoding method
-    sys.setdefaultencoding("utf-8")
-    def pickle_load(f):
-        return pickle.load(f)
-else: # > 3.0
-    def pickle_load(f):
-        return pickle.load(f,encoding="bytes")
+def pickle_load(f):
+    return pickle.load(f,encoding="bytes")
 
 class BasicCache(object):
     def __init__(self):
