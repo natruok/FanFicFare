@@ -935,6 +935,9 @@ class BaseXenForo2ForumAdapter(BaseSiteAdapter):
                 if not souptag and url in self.threadmarks_for_reader:
                     (tmcat_num,tmcat_index)=self.threadmarks_for_reader[url]
                     reader_page_num = int((tmcat_index+posts_per_page)/posts_per_page) + offset
+                    if reader_page_num < 1:
+                        # don't try pages < 1.
+                        continue
                     reader_url=self.make_reader_url(tmcat_num,reader_page_num)
                     # logger.debug("Fetch reader page: %s"%reader_url)
                     if offset != 0:
