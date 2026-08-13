@@ -411,7 +411,7 @@ class BaseXenForo2ForumAdapter(BaseSiteAdapter):
 
     def get_cache_post(self,postid):
         ## saved using original 'post-99999' id for key.
-        postid=str(postid) # thank you, Py3.
+        postid=str(postid)
         if self.getPathPrefix()+'posts/' in postid:
             ## allows chapter urls to be passed in directly.
             # assumed normalized to /posts/1234/
@@ -420,6 +420,8 @@ class BaseXenForo2ForumAdapter(BaseSiteAdapter):
             postid = postid.split('#')[1]
         elif '/post-' in postid:
             postid = "post-"+postid.split('/post-')[-1]
+        elif '#' in postid:
+            postid = "post-"+postid.split('#')[1]
         # logger.debug("get cache %s %s"%(postid,postid in self.post_cache))
         return self.post_cache.get(postid,None)
 
@@ -751,14 +753,11 @@ class BaseXenForo2ForumAdapter(BaseSiteAdapter):
             self.story.addToList('parentforums',stripHTML(atag))
 
         use_threadmark_chaps = False
-        if '#' in useurl:
-            anchorid = useurl.split('#')[1]
-            # souptag = souptag.find('li',id=anchorid)
+        if '#' in useurl or self.getPathPrefix()+'posts/' in useurl:
             # cache is now loaded with posts from that reader
             # page.  looking for it in cache reuses code in
             # cache_posts that finds post tags.
-            souptag = self.get_cache_post(anchorid)
-
+            souptag = self.get_cache_post(useurl)
         else:
             threadmarks = self.extract_threadmarks(souptag)
             souptag = self.get_first_post(topsoup)
