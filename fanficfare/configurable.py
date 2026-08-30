@@ -15,25 +15,17 @@
 # limitations under the License.
 #
 
-from __future__ import absolute_import
 import sys
 import re
 import codecs
 
-# py2 vs py3 transition
-from . import six
-from .six.moves import configparser
-from .six.moves.configparser import DEFAULTSECT, ParsingError
-if six.PY2:
-    ConfigParser = configparser.SafeConfigParser
-else: # PY3
-    ConfigParser = configparser.ConfigParser
+import configparser
+from configparser import DEFAULTSECT, ParsingError
+ConfigParser = configparser.ConfigParser
 
 if not hasattr(ConfigParser, 'read_file'):
     # read_file added in py3.2, readfp removed in py3.12
     ConfigParser.read_file = ConfigParser.readfp
-
-from .six import string_types as basestring
 
 import logging
 logger = logging.getLogger(__name__)
@@ -262,7 +254,6 @@ def get_valid_set_options():
                'dates_from_chapters':(['literotica.com'],None,boollist),
                'include_chapter_descriptions_in_summary':(['literotica.com'],None,boollist),
 
-               'inject_chapter_title':(['asianfanfics.com']+wpc_list,None,boollist),
                'inject_chapter_image':(['asianfanfics.com'],None,boollist),
                'append_datepublished_to_storyurl':(wpc_list,None,boollist),
 
@@ -640,7 +631,7 @@ class Configuration(ConfigParser):
             ## reconstructed completely because removing and re-adding
             ## a section would mess up the order.
             ## assumes _dict and _sections from ConfigParser parent.
-            self._sections = self._dict((section_url_f(k) if (domain in k and 'http' in k) else k, v) for k, v in six.viewitems(self._sections))
+            self._sections = self._dict((section_url_f(k) if (domain in k and 'http' in k) else k, v) for k, v in self._sections.items())
             # logger.debug(self._sections.keys())
         except Exception as e:
             logger.warning("Failed to perform section_url_names: %s"%e)
@@ -794,7 +785,7 @@ class Configuration(ConfigParser):
         filename may also be given.
         Return list of successfully read files.
         """
-        if isinstance(filenames, basestring):
+        if isinstance(filenames, str):
             filenames = [filenames]
         read_ok = []
         for filename in filenames:
