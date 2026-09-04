@@ -642,7 +642,7 @@ try to download.</p>
             strval = re.sub(r'[ \t\n\r\f\v]{2,}',' ',strval) # \s is localized.
 
         if self.getConfig('keep_summary_html'):
-            if isinstance(svalue,basestring):
+            if isinstance(svalue,str):
                 # bs4/html5lib add html, header and body tags, which
                 # we don't want.  utf8FromSoup will strip the body tags for us.
                 svalue = BeautifulSoup(svalue,"html5lib").body
@@ -659,7 +659,7 @@ try to download.</p>
             strval = re.sub(r'[ \t\n\r\f\v]{2,}',' ',strval) # \s is localized.
 
         if self.getConfig('keep_summary_html'):
-            if isinstance(svalue,basestring):
+            if isinstance(svalue,str):
                 # bs4/html5lib add html, header and body tags, which
                 # we don't want.  utf8FromSoup will strip the body tags for us.
                 svalue = BeautifulSoup(svalue,"html5lib").body
@@ -676,7 +676,7 @@ try to download.</p>
             strval = re.sub(r'[ \t\n\r\f\v]{2,}',' ',strval) # \s is localized.
 
         if self.getConfig('keep_summary_html'):
-            if isinstance(svalue,basestring):
+            if isinstance(svalue,str):
                 # bs4/html5lib add html, header and body tags, which
                 # we don't want.  utf8FromSoup will strip the body tags for us.
                 svalue = BeautifulSoup(svalue,"html5lib").body
