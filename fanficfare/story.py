@@ -811,6 +811,9 @@ class Story(Requestable):
         self.chapter_text_replacements_prepped = False
 
         self.chapter_error_count = 0
+        self.chapter_updated_count = 0
+        self.chapter_added_count = 0
+        self.chapter_written_count = 0
 
         # direct_fetcher is used for downloading image in some case
         # by using RequestsFetcher instead of the expected fetcher
@@ -1495,18 +1498,26 @@ class Story(Requestable):
         # logger.debug("getSubjectTags:%s"%subjectset.keys())
         return list(subjectset.keys())
 
-    def addChapter(self, chap, newchap=False):
-        # logger.debug("addChapter(%s,%s)"%(chap,newchap))
+    def addChapter(self, chap, mark_new=False):
+        # logger.debug("addChapter(%s,%s)"%(chap,mark_new))
         chapter = defaultdict(str,chap) # default unknown to empty string
         chapter['html'] = removeEntities(chapter['html'])
         if self.getConfig('strip_chapter_numbers') and \
                 self.getConfig('chapter_title_strip_pattern'):
             chapter['title'] = re.sub(self.getConfig('chapter_title_strip_pattern'),"",chapter['title'])
-        chapter.update({'origtitle':chapter['title'],
-                        'toctitle':chapter['title'],
-                        'new':newchap,
+        chapter.update({'origchapter':chapter['title'],
+                        'tocchapter':chapter['title'],
+                        'mark_new':mark_new,
                         'number':len(self.chapters)+1,
                         'index04':"%04d"%(len(self.chapters)+1)})
+
+        logger.debug("<"*50)
+        import pprint
+        debug_data = dict(chapter)
+        if 'html' in debug_data:
+            del debug_data['html']
+        logger.debug("\n"+pprint.pformat(debug_data))
+
         ## Due to poor planning on my part, chapter_title_*_pattern
         ## expect index==1 while output settings expected index=0001.
         ## index04 is to disambiguate, but index is kept for users'
@@ -1550,7 +1561,7 @@ class Story(Requestable):
 
         marked_new_chapters = 0
         for index, chap in enumerate(self.chapters):
-            if chap['new'] or self.getMetadata('newforanthology'):
+            if chap['mark_new'] or self.getMetadata('newforanthology'):
                 usetempl = newtempl
                 marked_new_chapters += 1
             else:
@@ -1564,11 +1575,19 @@ class Story(Requestable):
             ## compatibility.
             chapter['title'] = self.do_chapter_text_replacements(chapter['title'])
             chapter['index'] = chapter['number']
+
+            # template patterns use 'title'
             chapter['chapter'] = usetempl.substitute(chapter)
-            chapter['origtitle'] = templ.substitute(chapter)
-            chapter['toctitle'] = toctempl.substitute(chapter)
-            # set after, otherwise changes origtitle and toctitle
+            chapter['origchapter'] = templ.substitute(chapter)
+            chapter['tocchapter'] = toctempl.substitute(chapter)
+            # set 'title' to match after, otherwise changes
+            # origchapter and tocchapter.
+            #
+            # chapter_title_*_patterns use 'title', but chapter_start
+            # uses 'chapter'.  Probably was trying to disambiguate
+            # from story title at the time.  More poor planning.
             chapter['title'] = chapter['chapter']
+
             ## chapter['html'] is a string.
             chapter['html'] = self.do_chapter_text_replacements(chapter['html'])
             retval.append(chapter)
